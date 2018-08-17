@@ -1,28 +1,13 @@
-.App {
-  text-align: center;
+.navbar {
+  background-color: #99e6ff;
+  padding: 0px 10px 0px 10px;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.Logo {
+  font-family: 'Baloo Bhai', cursive;
+  font-size: 3em;
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+body {
+  background-color: #f2f2f2;
 }
