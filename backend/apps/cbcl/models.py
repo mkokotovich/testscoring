@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Test(models.Model):
+class CBCLTest(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -12,11 +12,11 @@ class Test(models.Model):
         ordering = ('created_at',)
 
 
-class Item(models.Model):
+class CBCLItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    test = models.ForeignKey(Test, related_name='items', on_delete=models.CASCADE)
+    test = models.ForeignKey(CBCLTest, related_name='items', on_delete=models.CASCADE)
     number = models.CharField(max_length=16)
     score = models.DecimalField(max_digits=1, decimal_places=0)
 

@@ -1,4 +1,4 @@
-"""cbcl_scoring URL Configuration
+"""testscoring URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/2.0/topics/http/urls/
@@ -25,5 +25,6 @@ from rest_framework_jwt.views import obtain_jwt_token
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     url(r'^api/token/', obtain_jwt_token),
-    url(r'^api/scoring/', include('scoring.urls')),
+    url(r'^api/user/', include('apps.user.urls')),
+    url(r'^api/cbcl/', include('apps.cbcl.urls')),
 ]

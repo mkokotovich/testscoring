@@ -1,5 +1,5 @@
 """
-WSGI config for cbcl_scoring project.
+WSGI config for testscoring project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
