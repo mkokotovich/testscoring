@@ -26,7 +26,7 @@ SECRET_KEY = 'amazing, I have the same key on my luggage'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["api", "localhost"]
+ALLOWED_HOSTS = ["api", "localhost", "testscoring.herokuapp.com"]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
