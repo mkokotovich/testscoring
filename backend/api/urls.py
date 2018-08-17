@@ -24,7 +24,7 @@ from rest_framework_jwt.views import obtain_jwt_token
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^api/token/', obtain_jwt_token),
-    url(r'^api/user/', include('apps.user.urls')),
+    url(r'^api/auth/', obtain_jwt_token),
+    url(r'^api/users/', include('apps.user.urls')),
     url(r'^api/cbcl/', include('apps.cbcl.urls')),
 ]

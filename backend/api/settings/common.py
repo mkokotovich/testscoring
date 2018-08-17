@@ -29,9 +29,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["api", "localhost", "testscoring.herokuapp.com"]
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
@@ -50,6 +47,7 @@ JWT_AUTH = {
 INSTALLED_APPS = [
     'apps.cbcl.apps.CBCLConfig',
     'apps.user.apps.UserConfig',
+    'django_pdb',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -67,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_pdb.middleware.PdbMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'

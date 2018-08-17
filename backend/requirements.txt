@@ -6,3 +6,4 @@ psycopg2==2.7.5
 PyJWT==1.6.4
 pytz==2018.5
 waitress==1.1.0
+django-pdb==0.6.2

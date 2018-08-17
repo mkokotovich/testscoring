@@ -1,18 +1,37 @@
 import React, { Component } from 'react';
+import { Row, Col } from 'antd';
 import logo from './logo.svg';
 import './App.css';
+import SignIn from './SignIn';
+import Home from './Home';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: null
+    };
+  }
+
+  handleAuthChange = (user) => {
+    this.setState({
+      user: user,
+    });
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Row
+          type="flex"
+          justify="space-between"
+          className="navbar"
+          align="middle"
+          >
+          <Col className="Logo">Test Scoring</Col>
+          <Col><SignIn handleAuthChange={this.handleAuthChange} /></Col>
+        </Row>
+        <Home signedInUser={this.state.user} />
       </div>
     );
   }
