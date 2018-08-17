@@ -1,1 +1,1 @@
-web: bin/start-nginx python server.py
+web: bin/start-nginx cd backend && python server.py
