@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 
 from scoring.models import Test, Item
