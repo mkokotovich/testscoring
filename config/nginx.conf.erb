@@ -54,7 +54,7 @@ http {
             proxy_pass http://app_server;
         }
         location / {
-            root frontend/fbpicks/build;
+            root ui/build;
             try_files $uri /index.html;
         }
     }
