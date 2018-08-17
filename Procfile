@@ -1,1 +1,1 @@
-web: bin/start-nginx sh -c 'cd backend && python server.py'
+web: bin/start-nginx sh -c 'cd backend && exec python server.py'
