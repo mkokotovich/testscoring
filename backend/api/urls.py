@@ -26,5 +26,5 @@ from rest_framework_jwt.views import obtain_jwt_token
 urlpatterns = [
     url(r'^api/auth/', obtain_jwt_token),
     url(r'^api/users/', include('apps.user.urls')),
-    url(r'^api/cbcl/', include('apps.cbcl.urls')),
+    url(r'^api/testing/', include('apps.testing.urls')),
 ]

@@ -2,14 +2,14 @@ from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 
-from apps.cbcl.models import CBCLTest, CBCLItem
-from apps.cbcl.serializers import CBCLTestSerializer, CBCLItemSerializer
-from apps.cbcl.permissions import IsOwnerPermission
+from apps.testing.models import Test, Item
+from apps.testing.serializers import TestSerializer, ItemSerializer
+from apps.testing.permissions import IsOwnerPermission
 
 
-class CBCLTestViewSet(viewsets.ModelViewSet):
-    queryset = CBCLTest.objects.all()
-    serializer_class = CBCLTestSerializer
+class TestViewSet(viewsets.ModelViewSet):
+    queryset = Test.objects.all()
+    serializer_class = TestSerializer
     filter_fields = ('name',)
     ordering = "-created_at"
 
@@ -24,9 +24,9 @@ class CBCLTestViewSet(viewsets.ModelViewSet):
         return super().get_permissions()
 
 
-class CBCLItemViewSet(viewsets.ModelViewSet):
-    queryset = CBCLItem.objects.all()
-    serializer_class = CBCLItemSerializer
+class ItemViewSet(viewsets.ModelViewSet):
+    queryset = Item.objects.all()
+    serializer_class = ItemSerializer
     filter_fields = ('name',)
     ordering = "-number"
 

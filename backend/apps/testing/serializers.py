@@ -1,21 +1,21 @@
 from rest_framework import serializers
 
-from apps.cbcl.models import CBCLTest, CBCLItem
-from apps.cbcl.utils import description_map
+from apps.testing.models import Test, Item
+from apps.testing.utils import description_map
 
 
-class CBCLTestSerializer(serializers.ModelSerializer):
+class TestSerializer(serializers.ModelSerializer):
     class Meta:
-        model = CBCLTest
+        model = Test
         fields = '__all__'
 
 
-class CBCLItemSerializer(serializers.ModelSerializer):
+class ItemSerializer(serializers.ModelSerializer):
     description = serializers.SerializerMethodField()
 
     def get_description(self, obj):
         return description_map.get(obj.number, f"item {obj.number} description")
 
     class Meta:
-        model = CBCLItem
+        model = Item
         fields = '__all__'

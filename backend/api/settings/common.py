@@ -45,7 +45,7 @@ JWT_AUTH = {
 # Application definition
 
 INSTALLED_APPS = [
-    'apps.cbcl.apps.CBCLConfig',
+    'apps.testing.apps.TestingConfig',
     'apps.user.apps.UserConfig',
     'django_pdb',
     'rest_framework',
