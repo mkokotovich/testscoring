@@ -13,6 +13,9 @@ class TestViewSet(viewsets.ModelViewSet):
     filter_fields = ('name',)
     ordering = "-created_at"
 
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
     def get_permissions(self):
         """
         Instantiates and returns the list of permissions that this view requires.

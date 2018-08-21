@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import { Input, Card, Modal, Button } from 'antd';
+import axios from 'axios';
 import './Home.css';
 
 class Home extends Component {
 
   state = {
     visible: false,
-    clientID: undefined
+    clientID: undefined,
+    loading: false
   }
 
   showModal = () => {
@@ -18,14 +20,29 @@ class Home extends Component {
   }
 
   viewExisting = () => {
-    this.props.history.push('/cbcl-list');
+    this.props.history.push('/cbcl/');
   }
 
   handleOk = (e) => {
     this.setState({
       visible: false,
+      loading: true
     });
-    this.props.history.push('/cbcl-new');
+    axios.post('/api/testing/v1/tests/', {client_number: this.state.clientID})
+      .then((response) => {
+        console.log(response);
+        this.setState({loading: false});
+        this.props.history.push(`/cbcl/${response.data.id}/edit`);
+      })
+      .catch((error) => {
+        console.log(error);
+        this.setState({loading: false});
+        Modal.error({
+          title: "Unable to start a new scoring",
+          content: "Unable to start a new scoring. Please try again\n\n" + error,
+          maskClosable: true,
+        })
+      });
   }
 
   handleCancel = (e) => {
@@ -39,17 +56,24 @@ class Home extends Component {
   }
 
   render() {
+    if (!this.props.signedInUser) {
+      return (
+        <div>
+          Sign in to continue
+        </div>
+      );
+    }
     return (
       <div className="Home">
         <Card style={{ width: 350 }}>
-          <h1>CBCL</h1>
+          <h1>CBCL 6-18</h1>
           <div align="right">
             <Button type="primary" onClick={this.showModal}>Start New</Button>
             &nbsp;
             <Button type="primary" onClick={this.viewExisting}>View Existing</Button>
           </div>
           <Modal
-            title="Start a new CBCL scoring"
+            title="Start a new CBCL 6-18 scoring"
             visible={this.state.visible}
             onOk={this.handleOk}
             okText="Start"

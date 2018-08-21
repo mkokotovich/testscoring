@@ -5,7 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 import SignIn from './SignIn';
 import Home from './Home';
-import CBCLNew from './CBCLNew';
+import CBCLEdit from './CBCLEdit';
 import CBCLList from './CBCLList';
 
 class App extends Component {
@@ -41,8 +41,13 @@ class App extends Component {
             return <Home signedInUser={this.state.user}/>;
           }}
         />
-        <Route path="/cbcl-new" component={CBCLNew}/>
-        <Route path="/cbcl-list" component={CBCLList}/>
+        <Route
+          path={`/cbcl/:testId/edit`}
+          render={() => {
+            return <CBCLEdit/>;
+          }}
+        />
+        <Route exact path="/cbcl" component={CBCLList}/>
       </div>
     );
   }
