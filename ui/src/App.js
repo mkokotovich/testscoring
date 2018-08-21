@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import logo from './logo.svg';
 import './App.css';
 import SignIn from './SignIn';
 import Home from './Home';
+import CBCLNew from './CBCLNew';
+import CBCLList from './CBCLList';
 
 class App extends Component {
   constructor(props) {
@@ -28,10 +31,18 @@ class App extends Component {
           className="navbar"
           align="middle"
           >
-          <Col className="Logo">Test Scoring</Col>
+          <Col className="Logo"><Link to="/">Test Scoring</Link></Col>
           <Col><SignIn handleAuthChange={this.handleAuthChange} /></Col>
         </Row>
-        <Home signedInUser={this.state.user} />
+        <Route
+          exact
+          path="/"
+          render={() => {
+            return <Home signedInUser={this.state.user}/>;
+          }}
+        />
+        <Route path="/cbcl-new" component={CBCLNew}/>
+        <Route path="/cbcl-list" component={CBCLList}/>
       </div>
     );
   }
