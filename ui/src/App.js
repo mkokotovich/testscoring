@@ -5,8 +5,8 @@ import logo from './logo.svg';
 import './App.css';
 import SignIn from './SignIn';
 import Home from './Home';
-import CBCLEdit from './CBCLEdit';
-import CBCLList from './CBCLList';
+import TestEdit from './TestEdit';
+import TestList from './TestList';
 
 class App extends Component {
   constructor(props) {
@@ -42,12 +42,12 @@ class App extends Component {
           }}
         />
         <Route
-          path={`/cbcl/:testId/edit`}
+          path={`/tests/:testId/edit`}
           render={() => {
-            return <CBCLEdit/>;
+            return <TestEdit/>;
           }}
         />
-        <Route exact path="/cbcl" component={CBCLList}/>
+        <Route exact path="/tests" component={TestList}/>
       </div>
     );
   }

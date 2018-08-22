@@ -20,7 +20,7 @@ class Home extends Component {
   }
 
   viewExisting = () => {
-    this.props.history.push('/cbcl/');
+    this.props.history.push('/tests/');
   }
 
   handleOk = (e) => {
@@ -36,7 +36,7 @@ class Home extends Component {
       .then((response) => {
         console.log(response);
         this.setState({loading: false});
-        this.props.history.push(`/cbcl/${response.data.id}/edit`);
+        this.props.history.push(`/tests/${response.data.id}/edit`);
       })
       .catch((error) => {
         console.log(error);
