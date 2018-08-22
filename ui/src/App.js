@@ -47,7 +47,7 @@ class App extends Component {
             return <TestEdit/>;
           }}
         />
-        <Route exact path="/tests" component={TestList}/>
+        <Route exact path={`/tests/:testType`} component={TestList}/>
       </div>
     );
   }

@@ -16,7 +16,8 @@ class TestList extends Component {
 
   loadTests = () => {
     this.setState({loading: true});
-    axios.get(`/api/testing/v1/tests/`)
+    const testType = this.props.match.params.testType;
+    axios.get(`/api/testing/v1/tests/?test_type=${testType}`)
       .then((response) => {
         console.log(response);
         this.setState({
