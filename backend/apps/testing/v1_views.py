@@ -3,16 +3,21 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
 
 from apps.testing.models import Test, Item
-from apps.testing.serializers import TestSerializer, ItemSerializer
+from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
 from apps.testing.permissions import IsOwnerPermission
 from apps.testing.cbcl import create_cbcl_6_18_test_items
 
 
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
-    serializer_class = TestSerializer
     filter_fields = ('name', 'test_type')
     ordering = "-created_at"
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return TestListSerializer
+        else:
+            return TestSerializer
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
