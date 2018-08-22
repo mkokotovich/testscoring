@@ -8,6 +8,15 @@ class Test(models.Model):
     owner = models.ForeignKey('auth.User', related_name='tests', on_delete=models.CASCADE)
     client_number = models.DecimalField(max_digits=8, decimal_places=0)
 
+    CBCL_6_18 = 'cbcl_6_18'
+    TEST_TYPE_CHOICES = (
+        (CBCL_6_18, 'cbcl_6_18'),
+    )
+    test_type = models.CharField(
+        max_length=16,
+        choices=TEST_TYPE_CHOICES,
+    )
+
     class Meta:
         ordering = ('created_at',)
 
@@ -18,7 +27,7 @@ class Item(models.Model):
 
     test = models.ForeignKey(Test, related_name='items', on_delete=models.CASCADE)
     number = models.CharField(max_length=16)
-    score = models.DecimalField(max_digits=1, decimal_places=0)
+    score = models.DecimalField(max_digits=1, decimal_places=0, null=True)
 
     class Meta:
         ordering = ('created_at',)

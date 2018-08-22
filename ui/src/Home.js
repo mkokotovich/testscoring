@@ -28,7 +28,11 @@ class Home extends Component {
       visible: false,
       loading: true
     });
-    axios.post('/api/testing/v1/tests/', {client_number: this.state.clientID})
+    var test_data = {
+      client_number: this.state.clientID,
+      test_type: "cbcl_6_18"
+    }
+    axios.post('/api/testing/v1/tests/', test_data)
       .then((response) => {
         console.log(response);
         this.setState({loading: false});
@@ -39,7 +43,7 @@ class Home extends Component {
         this.setState({loading: false});
         Modal.error({
           title: "Unable to start a new scoring",
-          content: "Unable to start a new scoring. Please try again\n\n" + error,
+          content: "Unable to start a new scoring. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
           maskClosable: true,
         })
       });
