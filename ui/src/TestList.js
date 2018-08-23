@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Route, Link } from 'react-router-dom';
-import { Row, Col, Modal, Spin } from 'antd';
+import { Row, Col, Modal, Spin, Table } from 'antd';
 import axios from 'axios';
-import TestSummary from './TestSummary';
 import './TestList.css';
 
 class TestList extends Component {
@@ -38,16 +37,40 @@ class TestList extends Component {
   }
 
   render() {
-    var summary = this.state.tests.map(test =>
-      <TestSummary test={test} />
-    );
+    const columns = [
+      {
+        title: "Test",
+        dataIndex: "id",
+        key: "id",
+        render: text => <Link to={`/tests/${text}/edit`}> Test {text} </Link>,
+      },
+      {
+        title: "Client Number",
+        dataIndex: "client_number",
+        key: "client_number",
+      },
+      {
+        title: "Created At",
+        dataIndex: "created_at",
+        key: "created_at",
+      },
+      {
+        title: "Last Modified",
+        dataIndex: "updated_at",
+        key: "updated_at",
+      },
+    ];
     return (
       <div className="TestList">
         <h2>All Tests</h2>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>
-        {summary}
+        <Table
+          dataSource={this.state.tests}
+          columns={columns}
+          rowKey={test => test.id}
+        />
       </div>
     );
   }
