@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Row, Col, Modal, Icon, Input } from 'antd';
 import axios from 'axios';
 import './Item.css';
@@ -18,18 +17,24 @@ class Item extends Component {
 
   onChangeItemScore = (e) => {
     console.log(this.props.item)
-    this.setState({ score: e.target.value });
+    this.setState({ score: e.target.value },
+      () => {
+        if (this.state.score.length >= 1) {
+          this.updateItem(this.state.score);
+          this.props.changeFocus(this.props.index);
+        }
+      }
+    );
   }
 
-  onBlurItemScore = (e) => {
-    console.log(this.props.item)
+  updateItem = (score) => {
     this.setState({
-      score: e.target.value,
+      score: score,
       saving: true,
       error: false,
     });
     var data = {
-      'score': e.target.value
+      'score': score
     }
     axios.patch(`/api/testing/v1/items/${this.props.item.id}/`, data)
       .then((response) => {
@@ -54,8 +59,6 @@ class Item extends Component {
   }
 
   render() {
-    //const iconType = "exclamation-circle" ? 
-    //const iconType = this.state.saved ? "check-circle-o" : (this.state.error ? "exclamation-circle"
     var icon = ('');
     if (this.state.saving) {
       icon = (<Icon type="loading" />);
@@ -71,10 +74,10 @@ class Item extends Component {
         <Row type="flex" align="middle">
           <Col>
             <Input
+              ref={this.props.inputRef}
               suffix={icon}
               value={this.state.score}
               onChange={this.onChangeItemScore}
-              onBlur={this.onBlurItemScore}
             />
           </Col>
           <Col className="itemDescription">
@@ -86,4 +89,4 @@ class Item extends Component {
   }
 }
 
-export default withRouter(Item);
+export default Item;
