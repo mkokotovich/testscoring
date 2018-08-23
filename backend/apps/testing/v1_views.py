@@ -13,7 +13,7 @@ class TestViewSet(viewsets.ModelViewSet):
     ordering = "-created_at"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        if self.request.user.is_staff:
             return Test.objects.all()
         else:
             return Test.objects.filter(owner=self.request.user)
@@ -50,7 +50,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     ordering = "-number"
 
     def get_queryset(self):
-        if self.request.user.is_superuser:
+        if self.request.user.is_staff:
             return Item.objects.all()
         else:
             return Item.objects.filter(test__owner=self.request.user)
