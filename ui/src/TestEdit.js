@@ -40,7 +40,7 @@ class TestEdit extends Component {
     const testId = this.props.match.params.testId;
     return (
       <div className="TestEdit">
-        <h2>Test {testId}</h2>
+        <h2>Test {testId}: {this.state.test.test_type} for client {this.state.test.client_number}</h2>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>

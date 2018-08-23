@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from apps.testing.models import Test, Item
 from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
-from apps.testing.permissions import IsOwnerPermission
+from apps.testing.permissions import IsOwnerPermission, IsTestOwnerPermission
 from apps.testing.cbcl import create_cbcl_6_18_test_items
 
 
@@ -52,5 +52,5 @@ class ItemViewSet(viewsets.ModelViewSet):
         if self.request.method == 'POST':
             self.permission_classes = [IsAuthenticated, ]
         else:
-            self.permission_classes = [IsAuthenticated, IsOwnerPermission]
+            self.permission_classes = [IsAuthenticated, IsTestOwnerPermission]
         return super().get_permissions()
