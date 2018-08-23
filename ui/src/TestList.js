@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter, Route, Link } from 'react-router-dom';
 import { Row, Col, Modal } from 'antd';
 import axios from 'axios';
+import TestSummary from './TestSummary';
 import './TestList.css';
 
 class TestList extends Component {
@@ -37,13 +38,13 @@ class TestList extends Component {
   }
 
   render() {
+    var summary = this.state.tests.map(test =>
+      <TestSummary test={test} />
+    );
     return (
       <div className="TestList">
-        All Tests
-        <br/><br/>
-        <pre>
-        {JSON.stringify(this.state.tests, undefined, 2)}
-        </pre>
+        <h2>All Tests</h2>
+        {summary}
       </div>
     );
   }

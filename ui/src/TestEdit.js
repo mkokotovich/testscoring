@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { withRouter, Route, Link } from 'react-router-dom';
-import { Row, Col, Modal } from 'antd';
+import { Row, Col, Modal, Input } from 'antd';
 import axios from 'axios';
+import ItemList from './ItemList';
 import './TestEdit.css';
 
 class TestEdit extends Component {
@@ -39,11 +40,8 @@ class TestEdit extends Component {
     const testId = this.props.match.params.testId;
     return (
       <div className="TestEdit">
-        Edit test {testId}
-        <br/><br/>
-        <pre>
-        {JSON.stringify(this.state.test, undefined, 2)}
-        </pre>
+        <h2>Test {testId}</h2>
+        <ItemList items={this.state.test.items} />
       </div>
     );
   }
