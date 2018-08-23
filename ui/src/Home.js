@@ -13,6 +13,10 @@ class Home extends Component {
     loading: false
   }
 
+  componentDidMount() {
+    this.wakeUpBackend();
+  }
+
   showModal = () => {
     this.setState({
       visible: true,
@@ -62,6 +66,21 @@ class Home extends Component {
 
   onChangeClientID = (e) => {
     this.setState({ clientID: e.target.value });
+  }
+
+  wakeUpBackend = () => {
+    axios.get('/up/')
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        Modal.error({
+          title: "Unable to reach server",
+          content: "Unable to reach server. Please refresh page and try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
+          maskClosable: true,
+        })
+      });
   }
 
   render() {
