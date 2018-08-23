@@ -29,5 +29,9 @@ class Item(models.Model):
     number = models.CharField(max_length=16)
     score = models.DecimalField(max_digits=1, decimal_places=0, null=True)
 
+    @property
+    def description(self):
+        return f"Item {self.number}"
+
     class Meta:
         ordering = ('created_at',)
