@@ -14,6 +14,14 @@ class TestList extends Component {
     this.loadTests();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.testType !== prevProps.match.params.testType) {
+      this.setState({tests: []});
+      this.loadTests();
+    }
+  }
+
+
   loadTests = () => {
     this.setState({loading: true});
     const testType = this.props.match.params.testType;

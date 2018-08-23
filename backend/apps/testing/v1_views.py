@@ -9,9 +9,14 @@ from apps.testing.cbcl import create_cbcl_6_18_test_items
 
 
 class TestViewSet(viewsets.ModelViewSet):
-    queryset = Test.objects.all()
     filter_fields = ('name', 'test_type')
     ordering = "-created_at"
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Test.objects.all()
+        else:
+            return Test.objects.filter(owner=self.request.user)
 
     def get_serializer_class(self):
         if self.action == 'list':
@@ -33,24 +38,29 @@ class TestViewSet(viewsets.ModelViewSet):
         Instantiates and returns the list of permissions that this view requires.
         """
         if self.request.method == 'POST':
-            self.permission_classes = [IsAuthenticated, ]
+            self.permission_classes = [IsAuthenticated]
         else:
-            self.permission_classes = [IsAuthenticated, IsOwnerPermission]
+            self.permission_classes = [IsOwnerPermission]
         return super().get_permissions()
 
 
 class ItemViewSet(viewsets.ModelViewSet):
-    queryset = Item.objects.all()
     serializer_class = ItemSerializer
     filter_fields = ('name',)
     ordering = "-number"
+
+    def get_queryset(self):
+        if self.request.user.is_superuser:
+            return Item.objects.all()
+        else:
+            return Item.objects.filter(test__owner=self.request.user)
 
     def get_permissions(self):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
         if self.request.method == 'POST':
-            self.permission_classes = [IsAuthenticated, ]
+            self.permission_classes = [IsAuthenticated]
         else:
-            self.permission_classes = [IsAuthenticated, IsTestOwnerPermission]
+            self.permission_classes = [IsTestOwnerPermission]
         return super().get_permissions()

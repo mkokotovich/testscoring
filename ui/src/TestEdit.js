@@ -15,6 +15,13 @@ class TestEdit extends Component {
     this.loadTest();
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.match.params.testId !== prevProps.match.params.testId) {
+      this.setState({test: []});
+      this.loadTest();
+    }
+  }
+
   loadTest = () => {
     this.setState({loading: true});
     axios.get(`/api/testing/v1/tests/${this.props.match.params.testId}/`)

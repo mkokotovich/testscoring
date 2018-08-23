@@ -5,12 +5,7 @@ class IsOwnerPermission(permissions.BasePermission):
     Object-level permission to only allow updating objects the user is owner for
     """
     def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        return obj.owner == request.user or request.user.is_admin
+        return obj.owner == request.user or request.user.is_superuser
 
 
 class IsTestOwnerPermission(permissions.BasePermission):
@@ -19,9 +14,4 @@ class IsTestOwnerPermission(permissions.BasePermission):
     is the owner of the Item's test
     """
     def has_object_permission(self, request, view, obj):
-        # Read permissions are allowed to any request,
-        # so we'll always allow GET, HEAD or OPTIONS requests.
-        if request.method in permissions.SAFE_METHODS:
-            return True
-
-        return obj.test.owner == request.user or request.user.is_admin
+        return obj.test.owner == request.user or request.user.is_superuser

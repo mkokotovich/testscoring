@@ -1,5 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import decode from 'jwt-decode';
 
@@ -8,11 +9,14 @@ import SignInForm from './SignInForm'
 
 function SignOut(props) {
   return (
-    <Button 
-      type="primary"
-      onClick={props.handleSignOut}>
-      Sign Out
-    </Button>
+    <div>
+      <b>{props.username} </b>
+      <Button 
+	type="primary"
+	onClick={props.handleSignOut}>
+	Sign Out
+      </Button>
+    </div>
   );
 }
 
@@ -22,7 +26,8 @@ class SignIn extends React.Component {
     this.handleSignIn = this.handleSignIn.bind(this);
     this.handleSignOut = this.handleSignOut.bind(this);
     this.state = {
-      isSignedIn: false
+      isSignedIn: false,
+      username: undefined
     };
   }
 
@@ -41,7 +46,9 @@ class SignIn extends React.Component {
     }
     const user = localStorage.getItem('user');
     if (user) {
-      this.props.handleAuthChange(JSON.parse(user));
+      const user_obj = JSON.parse(user)
+      this.props.handleAuthChange(user_obj);
+      this.setState({username: user_obj.username});
     }
   }
 
@@ -65,6 +72,7 @@ class SignIn extends React.Component {
       console.log(response.headers);
       if (token) {
 	console.log("Signed in " + username);
+	this.setState({username: username});
 	this.signInWithToken(token);
 	if (user) {
 	  localStorage.setItem('user', JSON.stringify(user));
@@ -92,16 +100,18 @@ class SignIn extends React.Component {
   handleSignOut() {
     localStorage.removeItem("id_token");
     localStorage.removeItem("user");
+    this.setState({username: undefined});
     this.props.handleAuthChange(null);
     delete axios.defaults.headers.common["Authorization"];
 
     console.log("Signed out");
     this.setState({isSignedIn: false});
+    this.props.history.push('/');
   }
 
   render() {
     const signInOrOut = this.state.isSignedIn ? (
-      <SignOut handleSignOut={this.handleSignOut} />
+      <SignOut handleSignOut={this.handleSignOut} username={this.state.username} />
     ) : (
       <SignInForm handleSignIn={this.handleSignIn} />
     );
@@ -114,4 +124,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn
+export default withRouter(SignIn)

@@ -86,8 +86,9 @@ class Home extends Component {
   render() {
     if (!this.props.signedInUser) {
       return (
-        <div>
-          Sign in to continue
+        <div className="Home">
+          <h1>Welcome to Test Scoring</h1>
+          Please sign in to continue
         </div>
       );
     }
