@@ -62,7 +62,7 @@ class TestList extends Component {
     ];
     return (
       <div className="TestList">
-        <h2>All Tests</h2>
+        <h2>All {this.props.match.params.testType} Tests</h2>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>
