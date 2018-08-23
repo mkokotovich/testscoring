@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter, Route, Link } from 'react-router-dom';
-import { Row, Col, Modal, Input } from 'antd';
+import { Row, Col, Modal, Input, Spin } from 'antd';
 import axios from 'axios';
 import ItemList from './ItemList';
 import './TestEdit.css';
@@ -41,6 +41,9 @@ class TestEdit extends Component {
     return (
       <div className="TestEdit">
         <h2>Test {testId}</h2>
+        <div align="center">
+          { this.state.loading && <Spin size="large" />}
+        </div>
         <ItemList items={this.state.test.items} />
       </div>
     );

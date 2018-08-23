@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link, withRouter } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Row, Col, Spin } from 'antd';
 import { Input, Card, Modal, Button } from 'antd';
 import axios from 'axios';
 import './Home.css';
@@ -25,7 +25,6 @@ class Home extends Component {
 
   handleOk = (e) => {
     this.setState({
-      visible: false,
       loading: true
     });
     var test_data = {
@@ -35,12 +34,18 @@ class Home extends Component {
     axios.post('/api/testing/v1/tests/', test_data)
       .then((response) => {
         console.log(response);
-        this.setState({loading: false});
+        this.setState({
+          loading: false,
+          visible: false
+        });
         this.props.history.push(`/tests/${response.data.id}/edit`);
       })
       .catch((error) => {
         console.log(error);
-        this.setState({loading: false});
+        this.setState({
+          loading: false,
+          visible: false
+        });
         Modal.error({
           title: "Unable to start a new scoring",
           content: "Unable to start a new scoring. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
@@ -84,6 +89,9 @@ class Home extends Component {
             okButtonProps={{ disabled: !this.state.clientID }}
             onCancel={this.handleCancel}
           >
+            <div align="center">
+              { this.state.loading && <Spin size="large" />}
+            </div>
             <p>Please enter the client ID</p>
             <Input
               placeholder="Enter Client ID"
