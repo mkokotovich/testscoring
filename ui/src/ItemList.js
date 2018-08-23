@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Route, Link } from 'react-router-dom';
-import { Row, Col, Modal, Input } from 'antd';
+import { withRouter } from 'react-router-dom';
 import Item from './Item';
 
 import './ItemList.css';

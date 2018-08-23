@@ -18,7 +18,7 @@
     "eject": "react-app-rewired eject",
     "postinstall": "react-app-rewired build"
   },
-  "proxy": "http://localhost:8000",
+  "proxy": "http://localhost:8008",
   "devDependencies": {
     "babel-plugin-import": "^1.8.0",
     "react-app-rewired": "^1.5.2"

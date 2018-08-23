@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { withRouter, Route, Link } from 'react-router-dom';
-import { Row, Col, Modal, Spin, Table } from 'antd';
+import { withRouter, Link } from 'react-router-dom';
+import { Modal, Spin, Table } from 'antd';
 import axios from 'axios';
 import './TestList.css';
 

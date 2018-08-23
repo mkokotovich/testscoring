@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter, Route, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Row, Col, Modal, Icon, Input } from 'antd';
 import axios from 'axios';
 import './Item.css';

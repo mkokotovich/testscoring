@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
 import { Row, Col } from 'antd';
-import logo from './logo.svg';
 import './App.css';
 import SignIn from './SignIn';
 import Home from './Home';
