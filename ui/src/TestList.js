@@ -61,6 +61,14 @@ class TestList extends Component {
       });
   }
 
+  expandedRowRender = (record) => {
+    return (
+      <div>
+        Created at: {record.created_at} and last modified at: {record.updated_at}
+      </div>
+    )
+  }
+
   render() {
     const columns = [
       {
@@ -73,16 +81,6 @@ class TestList extends Component {
         title: "Client Number",
         dataIndex: "client_number",
         key: "client_number",
-      },
-      {
-        title: "Created At",
-        dataIndex: "created_at",
-        key: "created_at",
-      },
-      {
-        title: "Last Modified",
-        dataIndex: "updated_at",
-        key: "updated_at",
       },
       {
         title: '',
@@ -106,6 +104,9 @@ class TestList extends Component {
           dataSource={this.state.tests}
           columns={columns}
           rowKey={test => test.id}
+          size='middle'
+          expandedRowRender={this.expandedRowRender}
+          expandRowByClick={true}
         />
       </div>
     );
