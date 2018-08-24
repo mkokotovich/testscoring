@@ -81,7 +81,7 @@ class Item extends Component {
             />
           </Col>
           <Col className="itemDescription">
-            {this.props.item.description}
+            Item {this.props.item.number}
           </Col>
         </Row>
       </div>

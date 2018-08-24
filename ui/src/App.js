@@ -6,6 +6,7 @@ import SignIn from './SignIn';
 import Home from './Home';
 import TestEdit from './TestEdit';
 import TestList from './TestList';
+import TestScores from './TestScores';
 
 class App extends Component {
   constructor(props) {
@@ -44,6 +45,12 @@ class App extends Component {
           path={`/tests/:testId/edit`}
           render={() => {
             return <TestEdit/>;
+          }}
+        />
+        <Route
+          path={`/tests/:testId/scores`}
+          render={() => {
+            return <TestScores/>;
           }}
         />
         <Route exact path={`/tests/:testType`} component={TestList}/>

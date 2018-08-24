@@ -28,10 +28,8 @@ class Item(models.Model):
     test = models.ForeignKey(Test, related_name='items', on_delete=models.CASCADE)
     number = models.CharField(max_length=16)
     score = models.DecimalField(max_digits=1, decimal_places=0, null=True)
-
-    @property
-    def description(self):
-        return f"Item {self.number}"
+    group = models.CharField(max_length=64, default='', blank=True)
+    description = models.CharField(max_length=128, default='', blank=True)
 
     class Meta:
         ordering = ('created_at',)

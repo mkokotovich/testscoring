@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, Affix, Button } from 'antd';
 import axios from 'axios';
 import ItemList from './ItemList';
 import './TestEdit.css';
@@ -43,6 +43,11 @@ class TestEdit extends Component {
       });
   }
 
+  handleViewScores = () => {
+    const testId = this.props.match.params.testId;
+    this.props.history.push(`/tests/${testId}/scores`)
+  }
+
   render() {
     const testId = this.props.match.params.testId;
     return (
@@ -51,6 +56,17 @@ class TestEdit extends Component {
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>
+
+        <Affix>
+          <div className="AlignRight">
+            <Button
+              className="TopRightButton"
+              onClick={this.handleViewScores}>
+                View Scores
+            </Button>
+          </div>
+        </Affix>
+
         <ItemList items={this.state.test.items} />
       </div>
     );

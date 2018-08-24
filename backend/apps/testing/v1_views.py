@@ -1,11 +1,13 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 from apps.testing.models import Test, Item
 from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
 from apps.testing.permissions import IsOwnerPermission, IsTestOwnerPermission
-from apps.testing.cbcl import create_cbcl_6_18_test_items
+from apps.testing.cbcl import create_cbcl_6_18_test_items, calculate_cbcl_6_18_test_scores
 
 
 class TestViewSet(viewsets.ModelViewSet):
@@ -42,6 +44,14 @@ class TestViewSet(viewsets.ModelViewSet):
         else:
             self.permission_classes = [IsOwnerPermission]
         return super().get_permissions()
+
+    @action(detail=True)
+    def scores(self, request, pk=None):
+        test = Test.objects.prefetch_related('items').get(id=pk)
+        scores = {}
+        if test.test_type == Test.CBCL_6_18:
+            scores = calculate_cbcl_6_18_test_scores(test)
+        return Response(scores)
 
 
 class ItemViewSet(viewsets.ModelViewSet):
