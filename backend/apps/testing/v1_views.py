@@ -12,13 +12,12 @@ from apps.testing.cbcl import create_cbcl_6_18_test_items, calculate_cbcl_6_18_t
 
 class TestViewSet(viewsets.ModelViewSet):
     filter_fields = ('name', 'test_type')
-    ordering = "-created_at"
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            return Test.objects.all()
+            return Test.objects.all().order_by('-created_at')
         else:
-            return Test.objects.filter(owner=self.request.user)
+            return Test.objects.filter(owner=self.request.user).order_by('-created_at')
 
     def get_serializer_class(self):
         if self.action == 'list':

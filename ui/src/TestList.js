@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter, Link } from 'react-router-dom';
-import { Modal, Spin, Table } from 'antd';
+import { Modal, Spin, Table, Popconfirm } from 'antd';
 import axios from 'axios';
 import './TestList.css';
 
@@ -21,7 +21,6 @@ class TestList extends Component {
     }
   }
 
-
   loadTests = () => {
     this.setState({loading: true});
     const testType = this.props.match.params.testType;
@@ -39,6 +38,24 @@ class TestList extends Component {
         Modal.error({
           title: "Unable to load tests",
           content: "Unable to load tests. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
+          maskClosable: true,
+        })
+      });
+  }
+
+  handleDelete = (testId) => {
+    console.log("delete " + testId);
+    axios.delete(`/api/testing/v1/tests/${testId}/`)
+      .then((response) => {
+        console.log(response);
+        const tests = [...this.state.tests];
+        this.setState({ tests: tests.filter(item => item.id !== testId) });
+      })
+      .catch((error) => {
+        console.log(error);
+        Modal.error({
+          title: "Unable to delete test",
+          content: "Unable to delete test. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
           maskClosable: true,
         })
       });
@@ -66,6 +83,17 @@ class TestList extends Component {
         title: "Last Modified",
         dataIndex: "updated_at",
         key: "updated_at",
+      },
+      {
+        title: '',
+        dataIndex: '',
+        render: (text, record) => {
+          return (
+            <Popconfirm title="Really Delete?" onConfirm={() => this.handleDelete(record.id) }>
+              <a href="javascript:;">Delete</a>
+            </Popconfirm>
+          );
+        }
       },
     ];
     return (
