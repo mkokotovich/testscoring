@@ -78,13 +78,33 @@ class TestList extends Component {
         render: text => <Link to={{ pathname: `/tests/${text}/view` }} > Test {text} </Link>,
       },
       {
-        title: "Client Number",
+        title: "Client",
         dataIndex: "client_number",
         key: "client_number",
       },
       {
         title: '',
         dataIndex: '',
+        width: 70,
+        align: 'center',
+        render: (text, record) => {
+          return <Link to={{ pathname: `/tests/${record.id}/scores` }} > Scores </Link>
+        }
+      },
+      {
+        title: '',
+        dataIndex: '',
+        width: 70,
+        align: 'center',
+        render: (text, record) => {
+          return <Link to={{ pathname: `/tests/${record.id}/edit` }} > Edit </Link>
+        }
+      },
+      {
+        title: '',
+        dataIndex: '',
+        width: 70,
+        align: 'center',
         render: (text, record) => {
           return (
             <Popconfirm title="Really Delete?" onConfirm={() => this.handleDelete(record.id) }>
@@ -105,6 +125,7 @@ class TestList extends Component {
           columns={columns}
           rowKey={test => test.id}
           size='middle'
+          scroll={{ x: 400 }}
           expandedRowRender={this.expandedRowRender}
           expandRowByClick={true}
         />

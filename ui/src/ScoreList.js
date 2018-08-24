@@ -10,7 +10,7 @@ class ScoreList extends Component {
     const related_items = this.props.test.items.filter(item => item.group === record.group);
     console.log("related" + related_items)
     return related_items.map(item =>
-      <div>
+      <div key={item.number}>
         Item {item.number}{item.description ? ` (${item.description})` : ''}: {item.score}
       </div>
     );
