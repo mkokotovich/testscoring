@@ -42,6 +42,12 @@ class App extends Component {
           }}
         />
         <Route
+          path={`/tests/:testId/view`}
+          render={() => {
+            return <TestEdit readonly={true}/>;
+          }}
+        />
+        <Route
           path={`/tests/:testId/edit`}
           render={() => {
             return <TestEdit/>;

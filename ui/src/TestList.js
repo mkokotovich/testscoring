@@ -50,7 +50,7 @@ class TestList extends Component {
         title: "Test",
         dataIndex: "id",
         key: "id",
-        render: text => <Link to={`/tests/${text}/edit`}> Test {text} </Link>,
+        render: text => <Link to={{ pathname: `/tests/${text}/view` }} > Test {text} </Link>,
       },
       {
         title: "Client Number",

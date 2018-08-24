@@ -8,11 +8,22 @@ import './TestEdit.css';
 class TestEdit extends Component {
   state = {
     test: {},
+    readonly: false,
     loading: false
   }
 
   componentDidMount() {
     this.loadTest();
+    if (this.props.location.state) {
+      const {readonly} = this.props.location.state
+      if (readonly) {
+        this.setState({readonly})
+      }
+    }
+    if (this.props.readonly !== undefined) {
+      this.setState({readonly: this.props.readonly})
+    }
+    
   }
 
   componentDidUpdate(prevProps) {
@@ -43,6 +54,11 @@ class TestEdit extends Component {
       });
   }
 
+  handleEdit = () => {
+    const testId = this.props.match.params.testId;
+    this.props.history.push(`/tests/${testId}/edit`)
+  }
+
   handleViewScores = () => {
     const testId = this.props.match.params.testId;
     this.props.history.push(`/tests/${testId}/scores`)
@@ -59,6 +75,13 @@ class TestEdit extends Component {
 
         <Affix>
           <div className="AlignRight">
+            { this.state.readonly ? 
+              <Button
+                className="TopRightButton"
+                onClick={this.handleEdit}>
+                  Edit
+              </Button> : '' 
+            }
             <Button
               className="TopRightButton"
               onClick={this.handleViewScores}>
@@ -67,7 +90,7 @@ class TestEdit extends Component {
           </div>
         </Affix>
 
-        <ItemList items={this.state.test.items} />
+        <ItemList items={this.state.test.items} readonly={this.state.readonly} />
       </div>
     );
   }

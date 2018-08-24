@@ -78,6 +78,7 @@ class Item extends Component {
               suffix={icon}
               value={this.state.score}
               onChange={this.onChangeItemScore}
+              disabled={this.props.readonly}
             />
           </Col>
           <Col className="itemDescription">

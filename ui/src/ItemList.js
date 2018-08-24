@@ -30,6 +30,7 @@ class ItemList extends Component {
           }}
           index={index}
           changeFocus={this.changeFocus}
+          readonly={this.props.readonly}
         /> 
       );
     }
