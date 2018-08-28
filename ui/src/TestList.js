@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
-import { Modal, Spin, Table, Popconfirm } from 'antd';
+import { withRouter } from 'react-router-dom';
+import { Modal, Spin, Divider } from 'antd';
+import Test from './Test';
 import axios from 'axios';
 import './TestList.css';
 
@@ -70,65 +71,20 @@ class TestList extends Component {
   }
 
   render() {
-    const columns = [
-      {
-        title: "Test",
-        dataIndex: "id",
-        key: "id",
-        render: text => <Link to={{ pathname: `/tests/${text}/view` }} > Test {text} </Link>,
-      },
-      {
-        title: "Client",
-        dataIndex: "client_number",
-        key: "client_number",
-      },
-      {
-        title: '',
-        dataIndex: '',
-        width: 70,
-        align: 'center',
-        render: (text, record) => {
-          return <Link to={{ pathname: `/tests/${record.id}/scores` }} > Scores </Link>
-        }
-      },
-      {
-        title: '',
-        dataIndex: '',
-        width: 70,
-        align: 'center',
-        render: (text, record) => {
-          return <Link to={{ pathname: `/tests/${record.id}/edit` }} > Edit </Link>
-        }
-      },
-      {
-        title: '',
-        dataIndex: '',
-        width: 70,
-        align: 'center',
-        render: (text, record) => {
-          return (
-            <Popconfirm title="Really Delete?" onConfirm={() => this.handleDelete(record.id) }>
-              <a href="javascript:;">Delete</a>
-            </Popconfirm>
-          );
-        }
-      },
-    ];
+    const tests = this.state.tests.map(test =>
+      <div key={test.id}>
+        <Test test={test} handleDelete={this.handleDelete} />
+        <Divider />
+      </div>
+    );
     return (
       <div className="TestList">
         <h2>All {this.props.match.params.testType} Tests</h2>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>
-        <Table
-          dataSource={this.state.tests}
-          columns={columns}
-          rowKey={test => test.id}
-          size='middle'
-          scroll={{ x: 400 }}
-          expandedRowRender={this.expandedRowRender}
-          expandRowByClick={true}
-        />
+        <Divider />
+        {tests}
       </div>
     );
   }
