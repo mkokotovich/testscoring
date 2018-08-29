@@ -9,7 +9,8 @@ class TestEdit extends Component {
   state = {
     test: {},
     readonly: false,
-    loading: false
+    loading: false,
+    conflicts: {}
   }
 
   componentDidMount() {
@@ -54,9 +55,36 @@ class TestEdit extends Component {
       });
   }
 
+  updateConflicts = (itemId, conflict) => {
+    var newConflicts = this.state.conflicts;
+    newConflicts[itemId] = conflict;
+    this.setState({ conflicts: newConflicts });
+  }
+
   handleEdit = () => {
     const testId = this.props.match.params.testId;
     this.props.history.push(`/tests/${testId}/edit`)
+  }
+
+  handleVerify = () => {
+    const testId = this.props.match.params.testId;
+    this.props.history.push(`/tests/${testId}/verify`)
+  }
+
+  handleViewInconsistencies = () => {
+    const onlyErrors = Object.keys(this.state.conflicts).reduce((filtered, key) => {
+      if (this.state.conflicts[key]) {
+        filtered.push(key);
+      }
+      return filtered;
+    }, []);
+    if (onlyErrors.length > 0) {
+      Modal.error({
+        title: "Inconsistencies Found",
+        content: "Inconsistencies found in items " + onlyErrors.join(", "),
+        maskClosable: true,
+      })
+    }
   }
 
   handleViewScores = () => {
@@ -66,6 +94,14 @@ class TestEdit extends Component {
 
   render() {
     const testId = this.props.match.params.testId;
+    const allVerified = this.state.test.items ? Object.keys(this.state.conflicts).length === this.state.test.items.length : false;
+    const inconsistencies = Object.keys(this.state.conflicts).reduce((filtered, key) => {
+      if (this.state.conflicts[key]) {
+        filtered.push(key);
+      }
+      return filtered;
+    }, []);
+
     return (
       <div className="TestEdit">
         <h2>Test {testId}: {this.state.test.test_type} for client {this.state.test.client_number}</h2>
@@ -82,15 +118,47 @@ class TestEdit extends Component {
                   Edit
               </Button> : '' 
             }
-            <Button
-              className="TopRightButton"
-              onClick={this.handleViewScores}>
-                View Scores
-            </Button>
+            { this.props.verify ? (
+              <React.Fragment>
+              { inconsistencies.length > 0 ? 
+                <Button
+                  className="TopRightButton"
+                  onClick={this.handleViewInconsistencies}>
+                    View Inconsistencies
+                </Button> : ''
+              }
+              {
+                allVerified && inconsistencies.length === 0 ? 
+                <Button
+                  className="TopRightButton"
+                  onClick={this.handleViewScores}>
+                    View Scores
+                </Button> : ''
+              }
+              </React.Fragment>
+            ) :
+              <React.Fragment>
+                <Button
+                  className="TopRightButton"
+                  onClick={this.handleVerify}>
+                    Verify
+                </Button>
+                <Button
+                  className="TopRightButton"
+                  onClick={this.handleViewScores}>
+                    View Scores
+                </Button>
+              </React.Fragment>
+            }
           </div>
         </Affix>
 
-        <ItemList items={this.state.test.items} readonly={this.state.readonly} />
+        <ItemList
+          items={this.state.test.items}
+          readonly={this.state.readonly}
+          verify={this.props.verify}
+          updateConflicts={this.updateConflicts}
+        />
       </div>
     );
   }

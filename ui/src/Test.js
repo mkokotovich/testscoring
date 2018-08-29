@@ -17,7 +17,7 @@ class Test extends Component {
       <div className="Test">
         <Row type="flex" align="middle">
           <Col className="TestTitle TestDetail" xs={12} sm={6} md={4} >
-            <Link to={{ pathname: `/tests/${this.props.test.id}/scores` }} > Test {this.props.test.id}</Link>
+            <Link to={{ pathname: `/tests/${this.props.test.id}/view` }} > Test {this.props.test.id}</Link>
           </Col>
           <Col className="TestDetail" xs={12} sm={6} md={4} >
             Client {this.props.test.client_number}

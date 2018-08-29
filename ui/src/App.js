@@ -48,6 +48,12 @@ class App extends Component {
           }}
         />
         <Route
+          path={`/tests/:testId/verify`}
+          render={() => {
+            return <TestEdit verify={true}/>;
+          }}
+        />
+        <Route
           path={`/tests/:testId/edit`}
           render={() => {
             return <TestEdit/>;

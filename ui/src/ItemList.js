@@ -31,6 +31,8 @@ class ItemList extends Component {
           index={index}
           changeFocus={this.changeFocus}
           readonly={this.props.readonly}
+          verify={this.props.verify}
+          updateConflicts={this.props.updateConflicts}
         /> 
       );
     }
