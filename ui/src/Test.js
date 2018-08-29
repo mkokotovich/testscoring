@@ -24,9 +24,6 @@ class Test extends Component {
           </Col>
           <Col className="TestDetail" xs={6} sm={3} md={2} >
             <Link to={{ pathname: `/tests/${this.props.test.id}/verify` }} > Verify </Link>
-            { this.props.test.verified ? 
-              <Icon type="check-circle-o" style={{ fontSize: 16 }} /> :
-              <Icon type="exclamation-circle-o" style={{ fontSize: 16 }} /> }
           </Col>
           <Col className="TestDetail" xs={6} sm={3} md={2} >
             <Link to={{ pathname: `/tests/${this.props.test.id}/scores` }} > Scores </Link>
