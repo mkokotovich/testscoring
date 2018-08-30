@@ -38,6 +38,9 @@ class Home extends Component {
       return (
         <div className="Home">
           <h1>Welcome to Test Scoring</h1>
+          <div align="center">
+            { this.state.loading && <Spin size="large" />}
+          </div>
           Please sign in to continue
         </div>
       );
