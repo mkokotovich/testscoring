@@ -19,7 +19,7 @@ from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
         ),
     ]
 )
-def test_cbcl_6_18(test, scores, create_function, score_function):
+def test_test_creation_and_scoring(test, scores, create_function, score_function):
     owner = User.objects.create(username="test")
     test_obj = models.Test.objects.create(
         owner=owner,
