@@ -12,8 +12,10 @@ services:
     ports:
       - "8008:8008"
     environment:
-      DATABASE_URL: postgres://postgres@postgres/testscoring
-      ENVIRON: local
+      - DATABASE_URL=postgres://postgres@postgres/testscoring
+      - ENVIRON=local
+      - DJANGO_SETTINGS_MODULE=api.settings.local
+      - DJANGO_SECRET_KEY=secret
 #  ui:
 #    build:
 #        context: ./
