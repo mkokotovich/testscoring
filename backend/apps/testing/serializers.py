@@ -12,7 +12,7 @@ class ItemSerializer(serializers.ModelSerializer):
 class ItemSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ('id', 'number', 'description', 'score', 'group')
+        fields = ('id', 'number', 'description', 'score', 'group', 'groups')
 
 
 class TestSerializer(serializers.ModelSerializer):

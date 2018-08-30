@@ -7,7 +7,7 @@ import './ScoreList.css';
 class ScoreList extends Component {
 
   expandedRowRender = (record) => {
-    const related_items = this.props.test.items.filter(item => item.group === record.group);
+    const related_items = this.props.test.items.filter(item => item.groups.includes(record.group));
     console.log("related" + related_items)
     return related_items.map(item =>
       <div key={item.number}>

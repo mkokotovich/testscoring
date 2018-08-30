@@ -54,6 +54,10 @@ class Home extends Component {
       {
         slug: "cbcl_1_5",
         name: "CBCL 1.5-5"
+      },
+      {
+        slug: "conners3_parent",
+        name: "Conners 3 - Parent"
       }
     ]
 

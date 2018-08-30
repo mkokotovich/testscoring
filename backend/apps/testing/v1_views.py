@@ -13,16 +13,22 @@ from apps.testing.cbcl import (
     calculate_cbcl_6_18_test_scores,
     calculate_cbcl_1_5_test_scores,
 )
+from apps.testing.conners import (
+    create_conners3_parent_test_items,
+    calculate_conners3_parent_test_scores,
+)
 
 
 create_functions = {
     Test.CBCL_6_18: create_cbcl_6_18_test_items,
     Test.CBCL_1_5: create_cbcl_1_5_test_items,
+    Test.CONNERS3_PARENT: create_conners3_parent_test_items,
 }
 
 score_functions = {
     Test.CBCL_6_18: calculate_cbcl_6_18_test_scores,
     Test.CBCL_1_5: calculate_cbcl_1_5_test_scores,
+    Test.CONNERS3_PARENT: calculate_conners3_parent_test_scores,
 }
 
 
