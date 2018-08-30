@@ -9,8 +9,10 @@ class Test(models.Model):
     client_number = models.DecimalField(max_digits=8, decimal_places=0)
 
     CBCL_6_18 = 'cbcl_6_18'
+    CBCL_1_5 = 'cbcl_1_5'
     TEST_TYPE_CHOICES = (
-        (CBCL_6_18, 'cbcl_6_18'),
+        (CBCL_6_18, CBCL_6_18),
+        (CBCL_1_5, CBCL_1_5),
     )
     test_type = models.CharField(
         max_length=16,
