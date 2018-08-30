@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Row, Col, Popconfirm, Icon } from 'antd';
+import { Button, Row, Col, Popconfirm } from 'antd';
 import './Test.css';
 import * as moment from 'moment';
 

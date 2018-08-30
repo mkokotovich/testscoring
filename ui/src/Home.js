@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Spin } from 'antd';
-import { Row, Input, Card, Modal, Button } from 'antd';
+import { Row, Modal, Spin } from 'antd';
 import StartTest from './StartTest';
 import axios from 'axios';
 import './Home.css';
@@ -9,6 +8,7 @@ import './Home.css';
 class Home extends Component {
 
   state = {
+    loading: false
   }
 
   componentDidMount() {
@@ -16,11 +16,14 @@ class Home extends Component {
   }
 
   wakeUpBackend = () => {
+    this.setState({loading: true});
     axios.get('/up/')
       .then((response) => {
+        this.setState({loading: false});
         console.log(response);
       })
       .catch((error) => {
+        this.setState({loading: false});
         console.log(error);
         Modal.error({
           title: "Unable to reach server",
@@ -60,6 +63,9 @@ class Home extends Component {
 
     return (
       <div className="Home">
+        <div align="center">
+          { this.state.loading && <Spin size="large" />}
+        </div>
         <Row type="flex">
           {startTests}
         </Row>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Link, withRouter} from 'react-router-dom';
-import { Card, Button, Row, Col, Modal, Spin, Input, Icon } from 'antd';
+import { withRouter} from 'react-router-dom';
+import { Card, Button, Modal, Spin, Input } from 'antd';
 import axios from 'axios';
 import './StartTest.css';
 
