@@ -7,6 +7,7 @@ import Home from './Home';
 import TestEdit from './TestEdit';
 import TestList from './TestList';
 import TestScores from './TestScores';
+import Profile from './Profile';
 
 class App extends Component {
   constructor(props) {
@@ -66,6 +67,12 @@ class App extends Component {
           }}
         />
         <Route exact path={`/tests/:testType`} component={TestList}/>
+        <Route
+          path={`/profile`}
+          render={() => {
+            return <Profile user={this.state.user}/>;
+          }}
+        />
       </div>
     );
   }

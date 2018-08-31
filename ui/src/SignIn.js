@@ -1,6 +1,6 @@
 import React from 'react';
 import { Modal, Button } from 'antd';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
 import decode from 'jwt-decode';
 
@@ -10,7 +10,7 @@ import SignInForm from './SignInForm'
 function SignOut(props) {
   return (
     <div>
-      <b>{props.username} </b>
+      <Link to="/profile"><b>{props.username} </b></Link>
       <Button 
 	type="primary"
 	onClick={props.handleSignOut}>
