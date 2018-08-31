@@ -66,6 +66,10 @@ class Home extends Component {
       {
         slug: "brief2",
         name: "BRIEF2"
+      },
+      {
+        slug: "srs2",
+        name: "SRS2"
       }
     ]
 
