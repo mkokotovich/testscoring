@@ -50,7 +50,11 @@ def main():
     if not password:
         print("Please set PASSWORD env variable")
         return -1
-    test_id = 9
+
+    test_id = os.getenv('TESTID')
+    if not test_id:
+        print("Please set TESTID env variable")
+        return -1
 
     token = login(username, password)
     test = get_test(token, test_id)

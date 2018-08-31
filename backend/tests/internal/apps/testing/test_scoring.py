@@ -5,18 +5,33 @@ from apps.testing import models
 from apps.testing import cbcl
 from tests.internal.data.cbcl_6_18_test import test as cbcl_6_18_test
 from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
+from tests.internal.data.cbcl_1_5_test import test as cbcl_1_5_test
+from tests.internal.data.cbcl_1_5_scores import scores as cbcl_1_5_scores
+
+
+cbcl_6_18_data = (
+    cbcl_6_18_test,
+    cbcl_6_18_scores,
+    cbcl.create_cbcl_6_18_test_items,
+    cbcl.calculate_cbcl_6_18_test_scores,
+)
+
+
+# TODO: these scores are unverified, replace with verified scores
+cbcl_1_5_data = (
+    cbcl_1_5_test,
+    cbcl_1_5_scores,
+    cbcl.create_cbcl_1_5_test_items,
+    cbcl.calculate_cbcl_1_5_test_scores,
+)
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'test, scores, create_function, score_function',
     [
-        (
-            cbcl_6_18_test,
-            cbcl_6_18_scores,
-            cbcl.create_cbcl_6_18_test_items,
-            cbcl.calculate_cbcl_6_18_test_scores,
-        ),
+        cbcl_6_18_data,
+        cbcl_1_5_data,
     ]
 )
 def test_test_creation_and_scoring(test, scores, create_function, score_function):
