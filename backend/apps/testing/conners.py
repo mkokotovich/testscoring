@@ -186,22 +186,26 @@ adhd_hyperactive_impulsive_criterion = [
 
 
 def calculate_adhd_scores(raw_scores, test):
-    inattentive = reduce(lambda accum, criteria: accum + (1 if criteria.is_indicated(test) else 0),
-                         adhd_inattentive_criterion,
-                         0)
+    inattentive = [
+        criteria.criteria
+        for criteria in adhd_inattentive_criterion
+        if criteria.is_indicated(test)
+    ]
 
-    hyperactive = reduce(lambda accum, criteria: accum + (1 if criteria.is_indicated(test) else 0),
-                         adhd_hyperactive_impulsive_criterion,
-                         0)
+    hyperactive = [
+        criteria.criteria
+        for criteria in adhd_hyperactive_impulsive_criterion
+        if criteria.is_indicated(test)
+    ]
 
     return [
         {
             'group': 'ADHD Inattentive Symptom Count',
-            'score': inattentive,
+            'score': f'{len(inattentive)} ({", ".join(inattentive)})',
         },
         {
             'group': 'ADHD Hyperactive Impulsive Symptom Count',
-            'score': hyperactive,
+            'score': f'{len(hyperactive)} ({", ".join(hyperactive)})',
         },
     ]
 
