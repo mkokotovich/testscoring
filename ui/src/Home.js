@@ -58,6 +58,10 @@ class Home extends Component {
       {
         slug: "conners3_parent",
         name: "Conners 3 - Parent"
+      },
+      {
+        slug: "tscyc",
+        name: "TSCYC"
       }
     ]
 

@@ -25,7 +25,7 @@ def create_test_items(test_id, item_descriptions):
 
 def convert_to_return_value(raw_scores, results_order, test):
     score_list = [
-        {'group': result, 'score': raw_scores.pop(result)}
+        {'group': result, 'score': raw_scores.pop(result, None)}
         for result in results_order
     ]
 
