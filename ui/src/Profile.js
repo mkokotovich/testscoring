@@ -11,7 +11,11 @@ function ProfileLabelAndInput(props) {
         {props.label}
       </Col>
       <Col xs={24} sm={12} md={12} lg={6}>
-        <Input value={props.value} onChange={props.onChange} />
+        <Input
+          value={props.value}
+          onChange={props.onChange}
+          disabled={props.disabled !== undefined ? props.disabled : false}
+        />
       </Col>
     </Row>
   );
@@ -24,7 +28,9 @@ class Profile extends Component {
   }
 
   componentDidMount(prevProps) {
+    if (this.props.user) {
       this.loadUser();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -107,7 +113,7 @@ class Profile extends Component {
   render() {
     const labelAndInputs = (this.state.user) ? (
       <React.Fragment>
-        <ProfileLabelAndInput label="Username" value={this.state.user.username} onChange={this.onChangeUsername} />
+        <ProfileLabelAndInput label="Username" value={this.state.user.username} onChange={this.onChangeUsername} disabled={true} />
         <ProfileLabelAndInput label="First Name" value={this.state.user.first_name} onChange={this.onChangeFirstName} />
         <ProfileLabelAndInput label="Last Name" value={this.state.user.last_name} onChange={this.onChangeLastName} />
         <ProfileLabelAndInput label="Email" value={this.state.user.email} onChange={this.onChangeEmail} />
