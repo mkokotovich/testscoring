@@ -12,11 +12,13 @@ class Test(models.Model):
     CBCL_1_5 = 'cbcl_1_5'
     CONNERS3_PARENT = 'conners3_parent'
     TSCYC = 'tscyc'
+    BRIEF2 = 'brief2'
     TEST_TYPE_CHOICES = (
         (CBCL_6_18, CBCL_6_18),
         (CBCL_1_5, CBCL_1_5),
         (CONNERS3_PARENT, CONNERS3_PARENT),
         (TSCYC, TSCYC),
+        (BRIEF2, BRIEF2),
     )
     test_type = models.CharField(
         max_length=16,

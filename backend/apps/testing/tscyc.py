@@ -126,6 +126,7 @@ def create_tscyc_test_items(test_id):
 
 def calculate_tscyc_test_scores(test):
     raw_scores = calculate_raw_scores(test)
+    raw_scores['RL'] = test.items.filter(score=1).filter(group='RL').count()
     raw_scores['PTS-TOT'] = raw_scores['PTS-I'] + raw_scores['PTS-AV'] + raw_scores['PTS-AR']
     return_obj = convert_to_return_value(raw_scores, tscyc_results_order, test)
     return return_obj

@@ -21,6 +21,10 @@ from apps.testing.tscyc import (
     create_tscyc_test_items,
     calculate_tscyc_test_scores,
 )
+from apps.testing.brief import (
+    create_brief2_test_items,
+    calculate_brief2_test_scores,
+)
 
 
 create_functions = {
@@ -28,6 +32,7 @@ create_functions = {
     Test.CBCL_1_5: create_cbcl_1_5_test_items,
     Test.CONNERS3_PARENT: create_conners3_parent_test_items,
     Test.TSCYC: create_tscyc_test_items,
+    Test.BRIEF2: create_brief2_test_items,
 }
 
 score_functions = {
@@ -35,6 +40,7 @@ score_functions = {
     Test.CBCL_1_5: calculate_cbcl_1_5_test_scores,
     Test.CONNERS3_PARENT: calculate_conners3_parent_test_scores,
     Test.TSCYC: calculate_tscyc_test_scores,
+    Test.BRIEF2: calculate_brief2_test_scores,
 }
 
 
