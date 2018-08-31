@@ -29,6 +29,10 @@ from apps.testing.srs import (
     create_srs2_test_items,
     calculate_srs2_test_scores,
 )
+from apps.testing.scared import (
+    create_scared_test_items,
+    calculate_scared_test_scores,
+)
 
 
 create_functions = {
@@ -38,6 +42,7 @@ create_functions = {
     Test.TSCYC: create_tscyc_test_items,
     Test.BRIEF2: create_brief2_test_items,
     Test.SRS2: create_srs2_test_items,
+    Test.SCARED: create_scared_test_items,
 }
 
 score_functions = {
@@ -47,6 +52,7 @@ score_functions = {
     Test.TSCYC: calculate_tscyc_test_scores,
     Test.BRIEF2: calculate_brief2_test_scores,
     Test.SRS2: calculate_srs2_test_scores,
+    Test.SCARED: calculate_scared_test_scores,
 }
 
 
