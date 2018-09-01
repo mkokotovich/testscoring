@@ -2,11 +2,13 @@ import pytest
 from django.contrib.auth.models import User
 
 from apps.testing import models
-from apps.testing import cbcl
+from apps.testing import (cbcl, conners)
 from tests.internal.data.cbcl_6_18_test import test as cbcl_6_18_test
 from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
 from tests.internal.data.cbcl_1_5_test import test as cbcl_1_5_test
 from tests.internal.data.cbcl_1_5_scores import scores as cbcl_1_5_scores
+from tests.internal.data.conners3_parent_test import test as conners3_parent_test
+from tests.internal.data.conners3_parent_scores import scores as conners3_parent_scores
 
 
 cbcl_6_18_data = (
@@ -26,12 +28,21 @@ cbcl_1_5_data = (
 )
 
 
+conners3_parent_data = (
+    conners3_parent_test,
+    conners3_parent_scores,
+    conners.create_conners3_parent_test_items,
+    conners.calculate_conners3_parent_test_scores,
+)
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'test, scores, create_function, score_function',
     [
         cbcl_6_18_data,
         cbcl_1_5_data,
+        conners3_parent_data,
     ]
 )
 def test_test_creation_and_scoring(test, scores, create_function, score_function):
