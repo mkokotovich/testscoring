@@ -33,6 +33,10 @@ from apps.testing.scared import (
     create_scared_test_items,
     calculate_scared_test_scores,
 )
+from apps.testing.tscc import (
+    create_tscc_test_items,
+    calculate_tscc_test_scores,
+)
 
 
 create_functions = {
@@ -43,6 +47,7 @@ create_functions = {
     Test.BRIEF2: create_brief2_test_items,
     Test.SRS2: create_srs2_test_items,
     Test.SCARED: create_scared_test_items,
+    Test.TSCC: create_tscc_test_items,
 }
 
 score_functions = {
@@ -53,6 +58,7 @@ score_functions = {
     Test.BRIEF2: calculate_brief2_test_scores,
     Test.SRS2: calculate_srs2_test_scores,
     Test.SCARED: calculate_scared_test_scores,
+    Test.TSCC: calculate_tscc_test_scores,
 }
 
 

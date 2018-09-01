@@ -15,6 +15,7 @@ class Test(models.Model):
     BRIEF2 = 'brief2'
     SRS2 = 'srs2'
     SCARED = 'scared'
+    TSCC = 'tscc'
     TEST_TYPE_CHOICES = (
         (CBCL_6_18, CBCL_6_18),
         (CBCL_1_5, CBCL_1_5),
@@ -23,6 +24,7 @@ class Test(models.Model):
         (BRIEF2, BRIEF2),
         (SRS2, SRS2),
         (SCARED, SCARED),
+        (TSCC, TSCC),
     )
     test_type = models.CharField(
         max_length=16,

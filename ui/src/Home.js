@@ -74,6 +74,10 @@ class Home extends Component {
       {
         slug: "scared",
         name: "SCARED"
+      },
+      {
+        slug: "tscc",
+        name: "TSCC"
       }
     ]
 
