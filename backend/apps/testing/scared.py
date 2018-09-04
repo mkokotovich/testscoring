@@ -62,6 +62,7 @@ scared_results_order = [
     'Separation',
     'Social',
     'School Avoidance',
+    'Total',
 ]
 
 
@@ -71,5 +72,6 @@ def create_scared_test_items(test_id):
 
 def calculate_scared_test_scores(test):
     raw_scores = calculate_raw_scores(test)
+    raw_scores['Total'] = sum([value for key, value in raw_scores.items() if key in scared_results_order])
     return_obj = convert_to_return_value(raw_scores, scared_results_order, test)
     return return_obj

@@ -88,6 +88,10 @@ brief2_results_order = [
     'Plan/Organize',
     'Task-Monitor',
     'Organization of Materials',
+    'BRI',
+    'ERI',
+    'CRI',
+    'GEC',
 ]
 
 
@@ -97,5 +101,18 @@ def create_brief2_test_items(test_id):
 
 def calculate_brief2_test_scores(test):
     raw_scores = calculate_raw_scores(test)
+    raw_scores['BRI'] = sum([
+        value for key, value in raw_scores.items()
+        if key in ['Inhibit', 'Self-Monitor']
+    ])
+    raw_scores['ERI'] = sum([
+        value for key, value in raw_scores.items()
+        if key in ['Shift', 'Emotional Control']
+    ])
+    raw_scores['CRI'] = sum([
+        value for key, value in raw_scores.items()
+        if key in ['Initiate', 'Working Memory', 'Plan/Organize', 'Task-Monitor', 'Organization of Materials']
+    ])
+    raw_scores['GEC'] = raw_scores['BRI'] + raw_scores['ERI'] + raw_scores['CRI']
     return_obj = convert_to_return_value(raw_scores, brief2_results_order, test)
     return return_obj
