@@ -13,7 +13,7 @@ class ItemDescription:
 
 def create_test_items(test_id, item_descriptions):
     test = Test.objects.get(id=test_id)
-    items = [
+    [
         Item.objects.create(
             test=test,
             number=item.number,
@@ -44,7 +44,7 @@ def calculate_raw_scores(test):
     raw_scores = {}
     for item in test.items.all():
         # First validate that score has been set
-        if item.score == None:
+        if item.score is None:
             raise APIException(f"Unable to calculate score, item {item.number} does not have a score")
 
         # Some items need to be counted in multiple groups

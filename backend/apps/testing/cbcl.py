@@ -1,6 +1,3 @@
-from rest_framework.exceptions import APIException
-
-from apps.testing.models import Item, Test
 from apps.testing.utils import (
     ItemDescription,
     calculate_raw_scores,

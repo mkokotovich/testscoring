@@ -17,6 +17,7 @@ class ItemSummarySerializer(serializers.ModelSerializer):
 
 class TestSerializer(serializers.ModelSerializer):
     items = ItemSummarySerializer(many=True, read_only=True)
+
     class Meta:
         model = Test
         fields = '__all__'
