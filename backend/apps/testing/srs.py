@@ -81,6 +81,8 @@ srs2_results_order = [
     'Com',
     'Mot',
     'RRB',
+    'SCI',
+    'Total',
 ]
 
 
@@ -90,5 +92,7 @@ def create_srs2_test_items(test_id):
 
 def calculate_srs2_test_scores(test):
     raw_scores = calculate_raw_scores(test)
+    raw_scores['SCI'] = raw_scores['Awr'] + raw_scores['Cog'] + raw_scores['Com'] + raw_scores['Mot']
+    raw_scores['Total'] = raw_scores['SCI'] + raw_scores['RRB']
     return_obj = convert_to_return_value(raw_scores, srs2_results_order, test)
     return return_obj
