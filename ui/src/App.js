@@ -9,6 +9,8 @@ import TestList from './TestList';
 import TestScores from './TestScores';
 import Profile from './Profile';
 import ChangePassword from './ChangePassword';
+import ForgotPassword from './ForgotPassword';
+import ResetPassword from './ResetPassword';
 
 class App extends Component {
   constructor(props) {
@@ -80,6 +82,20 @@ class App extends Component {
           path={`/profile`}
           render={() => {
             return <Profile user={this.state.user}/>;
+          }}
+        />
+        <Route
+          exact 
+          path={`/reset`}
+          render={() => {
+            return <ResetPassword/>;
+          }}
+        />
+        <Route
+          exact 
+          path={`/forgot`}
+          render={() => {
+            return <ForgotPassword/>;
           }}
         />
       </div>

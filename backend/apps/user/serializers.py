@@ -25,3 +25,13 @@ class UserSummarySerializer(serializers.ModelSerializer):
 class ChangePasswordSerializer(serializers.Serializer):
     old_password = serializers.CharField(max_length=128)
     new_password = serializers.CharField(max_length=128)
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    email = serializers.CharField(max_length=128)
+    token = serializers.CharField(max_length=128)
+    new_password = serializers.CharField(max_length=128)
+
+
+class GenerateResetSerializer(serializers.Serializer):
+    email = serializers.CharField(max_length=128)

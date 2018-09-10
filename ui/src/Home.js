@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { Row, Modal, Spin } from 'antd';
 import StartTest from './StartTest';
 import axios from 'axios';
@@ -42,6 +42,8 @@ class Home extends Component {
             { this.state.loading && <Spin size="large" />}
           </div>
           Please sign in to continue
+          <br/><br/>
+          <Link to="/forgot">Forgot your password?</Link>
         </div>
       );
     }
