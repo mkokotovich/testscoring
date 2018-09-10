@@ -20,3 +20,8 @@ class UserSummarySerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username')
+
+
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(max_length=128)
+    new_password = serializers.CharField(max_length=128)

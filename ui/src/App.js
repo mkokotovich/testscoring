@@ -8,6 +8,7 @@ import TestEdit from './TestEdit';
 import TestList from './TestList';
 import TestScores from './TestScores';
 import Profile from './Profile';
+import ChangePassword from './ChangePassword';
 
 class App extends Component {
   constructor(props) {
@@ -68,6 +69,14 @@ class App extends Component {
         />
         <Route exact path={`/tests/:testType`} component={TestList}/>
         <Route
+          exact 
+          path={`/profile/password`}
+          render={() => {
+            return <ChangePassword user={this.state.user}/>;
+          }}
+        />
+        <Route
+          exact 
           path={`/profile`}
           render={() => {
             return <Profile user={this.state.user}/>;

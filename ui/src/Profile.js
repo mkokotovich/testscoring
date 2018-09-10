@@ -88,6 +88,10 @@ class Profile extends Component {
     this.props.history.goBack();
   }
 
+  handleChangePassword = () => {
+    this.props.history.push('/profile/password');
+  }
+
   handleSave = () => {
     this.setState({loading: true});
     axios.patch(`/api/users/v1/${this.props.user.id}/`, this.state.user)
@@ -117,6 +121,8 @@ class Profile extends Component {
         <ProfileLabelAndInput label="First Name" value={this.state.user.first_name} onChange={this.onChangeFirstName} />
         <ProfileLabelAndInput label="Last Name" value={this.state.user.last_name} onChange={this.onChangeLastName} />
         <ProfileLabelAndInput label="Email" value={this.state.user.email} onChange={this.onChangeEmail} />
+        <Button onClick={this.handleChangePassword}>Change Password</Button>
+        <br/><br/>
       </React.Fragment>
       ) : '';
     return (
