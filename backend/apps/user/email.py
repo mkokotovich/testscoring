@@ -8,7 +8,7 @@ def send_password_reset_email(to, reset_token):
     from_email = Email("mkokotovich@gmail.com")
     subject = "Password Reset for testscoring.herokuapp.com"
     to_email = Email(to)
-    url = f"https://testscoring.herokuapp.com/reset?email={to}&token={reset_token}"
+    url = f"https://testscoring.herokuapp.com/#/reset?email={to}&token={reset_token}"
     body = f"""
 <a href="{url}">Click Here</a> to reset your password, or copy and paste {url} into your browser
 

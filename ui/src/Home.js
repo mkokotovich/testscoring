@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { Row, Col, Modal, Spin } from 'antd';
+import { Row, Modal, Spin } from 'antd';
 import StartTest from './StartTest';
 import axios from 'axios';
 import './Home.css';
