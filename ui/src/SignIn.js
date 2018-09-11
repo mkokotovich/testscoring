@@ -10,11 +10,16 @@ import SignInForm from './SignInForm'
 function SignOut(props) {
   return (
     <div>
-      <Link to="/profile"><b>{props.username} </b></Link>
       <Button 
-	type="primary"
-	onClick={props.handleSignOut}>
-	Sign Out
+        onClick={props.handleProfile}
+        icon="user">
+        {props.username} 
+      </Button>
+      &nbsp;
+      <Button 
+        type="primary"
+        onClick={props.handleSignOut}>
+        Sign Out
       </Button>
     </div>
   );
@@ -97,7 +102,11 @@ class SignIn extends React.Component {
     });
   }
 
-  handleSignOut() {
+  handleProfile = () => {
+    this.props.history.push('/profile');
+  }
+
+  handleSignOut = () => {
     localStorage.removeItem("id_token");
     localStorage.removeItem("user");
     this.setState({username: undefined});
@@ -111,7 +120,7 @@ class SignIn extends React.Component {
 
   render() {
     const signInOrOut = this.state.isSignedIn ? (
-      <SignOut handleSignOut={this.handleSignOut} username={this.state.username} />
+      <SignOut handleSignOut={this.handleSignOut} handleProfile={this.handleProfile} username={this.state.username} />
     ) : (
       <SignInForm handleSignIn={this.handleSignIn} />
     );

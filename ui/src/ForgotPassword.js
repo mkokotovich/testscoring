@@ -25,7 +25,8 @@ function ProfileLabelAndInput(props) {
 class ForgotPassword extends Component {
   state = {
     email: undefined,
-    loading: false
+    loading: false,
+    sent: false
   }
 
   onChangeEmail = (e) => {
@@ -47,8 +48,8 @@ class ForgotPassword extends Component {
         console.log(response);
         this.setState({
           loading: false,
+          sent: true
         });
-        this.props.history.push('/');
       })
       .catch((error) => {
         console.log(error);
@@ -62,6 +63,14 @@ class ForgotPassword extends Component {
   }
 
   render() {
+    if (this.state.sent) {
+      return (
+        <div className="ForgotPassword">
+          <h2>Forgotten Password?</h2>
+          <p>Reset email was sent, please check your spam folder and follow the directions to reset your password!</p>
+        </div>
+      );
+    }
     return (
       <div className="ForgotPassword">
         <h2>Forgotten Password?</h2>
