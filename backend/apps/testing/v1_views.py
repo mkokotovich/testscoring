@@ -3,6 +3,8 @@ from rest_framework.exceptions import APIException
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework import filters
+from django_filters.rest_framework import DjangoFilterBackend
 
 from apps.testing.models import Test, Item
 from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
@@ -63,6 +65,8 @@ score_functions = {
 
 
 class TestViewSet(viewsets.ModelViewSet):
+    filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
+    search_fields = ('^client_number',)
     filter_fields = ('test_type', 'client_number')
 
     def get_queryset(self):

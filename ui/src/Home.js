@@ -2,46 +2,12 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Row, Modal, Spin } from 'antd';
 import StartTest from './StartTest';
+import Search from './Search';
+import { assessments } from './Constants';
 import axios from 'axios';
 import './Home.css';
 
 class Home extends Component {
-
-  assessments = [
-    {
-      slug: "cbcl_6_18",
-      name: "CBCL 6-18"
-    },
-    {
-      slug: "cbcl_1_5",
-      name: "CBCL 1.5-5"
-    },
-    {
-      slug: "conners3_parent",
-      name: "Conners 3 - Parent"
-    },
-    {
-      slug: "tscyc",
-      name: "TSCYC"
-    },
-    {
-      slug: "brief2",
-      name: "BRIEF2"
-    },
-    {
-      slug: "srs2",
-      name: "SRS2"
-    },
-    {
-      slug: "scared",
-      name: "SCARED"
-    },
-    {
-      slug: "tscc",
-      name: "TSCC"
-    }
-  ]
-
 
   state = {
     loading: false
@@ -71,8 +37,8 @@ class Home extends Component {
 
   render() {
     if (!this.props.signedInUser) {
-      const listOfTests = this.assessments.map((assessment, index) =>
-        <li>{assessment.name}</li>
+      const listOfTests = assessments.map((assessment, index) =>
+        <li key={index}>{assessment.name}</li>
       );
 
       return (
@@ -91,7 +57,7 @@ class Home extends Component {
       );
     }
 
-    const startTests = this.assessments.map((assessment, index) =>
+    const startTests = assessments.map((assessment, index) =>
       <StartTest
         key={index}
         assessment={assessment}
@@ -100,6 +66,9 @@ class Home extends Component {
 
     return (
       <div className="Home">
+        <div className="HomeSearch">
+          <Search/>
+        </div>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>

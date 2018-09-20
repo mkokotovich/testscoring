@@ -18,7 +18,7 @@ class StartTest extends Component {
   }
 
   viewExisting = () => {
-    this.props.history.push(`/tests/${this.props.assessment.slug}/`);
+    this.props.history.push(`/tests/?type=${this.props.assessment.slug}`);
   }
 
   handleOk = (e) => {

@@ -31,6 +31,10 @@ class Test(models.Model):
         choices=TEST_TYPE_CHOICES,
     )
 
+    @property
+    def client_number_str(self):
+        return str(self.client_number)
+
     class Meta:
         ordering = ('created_at',)
 

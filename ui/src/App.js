@@ -69,7 +69,11 @@ class App extends Component {
             return <TestScores/>;
           }}
         />
-        <Route exact path={`/tests/:testType`} component={TestList}/>
+        <Route
+          exact
+          path={`/tests`}
+          component={TestList}
+        />
         <Route
           exact 
           path={`/profile/password`}

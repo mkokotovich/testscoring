@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Modal, Spin, Divider } from 'antd';
 import Test from './Test';
+import Search from './Search';
 import axios from 'axios';
+import queryString from 'query-string';
 import './TestList.css';
 
 class TestList extends Component {
@@ -16,7 +18,7 @@ class TestList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.match.params.testType !== prevProps.match.params.testType) {
+    if (this.props.location.search !== prevProps.location.search) {
       this.setState({tests: []});
       this.loadTests();
     }
@@ -24,8 +26,22 @@ class TestList extends Component {
 
   loadTests = () => {
     this.setState({loading: true});
-    const testType = this.props.match.params.testType;
-    axios.get(`/api/testing/v1/tests/?test_type=${testType}`)
+    const values = queryString.parse(this.props.location.search)
+    var query = "";
+    var sep = "?";
+    if (values.type) {
+      query = `${query}${sep}test_type=${values.type}`;
+      sep = "&";
+    }
+    if (values.search) {
+      query = `${query}${sep}search=${values.search}`;
+      sep = "&";
+    }
+    if (values.clientid) {
+      query = `${query}${sep}client_number=${values.clientid}`;
+      sep = "&";
+    }
+    axios.get(`/api/testing/v1/tests/${query}`)
       .then((response) => {
         console.log(response);
         this.setState({
@@ -79,7 +95,7 @@ class TestList extends Component {
     );
     return (
       <div className="TestList">
-        <h2>All {this.props.match.params.testType} Tests</h2>
+        <Search/>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>
