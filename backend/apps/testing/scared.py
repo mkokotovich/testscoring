@@ -52,12 +52,12 @@ scared_items = [
 
 
 scared_results_order = [
+    'Total',
     'Panic/Somatic',
     'Generalized Anxiety',
     'Separation',
     'Social',
     'School Avoidance',
-    'Total',
 ]
 
 

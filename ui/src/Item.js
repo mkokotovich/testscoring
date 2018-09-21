@@ -41,7 +41,6 @@ class Item extends Component {
   }
 
   onChangeItemScore = (e) => {
-    console.log(this.props.item)
     this.setState({ score: e.target.value },
       () => {
         if (this.state.score.length >= 1) {
@@ -105,8 +104,9 @@ class Item extends Component {
               ref={this.props.inputRef}
               suffix={icon}
               value={inputValue}
-              onChange={changeCallback}
+              onInput={changeCallback}
               disabled={this.props.readonly}
+              onFocus={(event) => event.target.select()}
             />
           </Col>
           <Col className="itemDescription">

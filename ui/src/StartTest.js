@@ -93,6 +93,7 @@ class StartTest extends Component {
               placeholder="Enter Client ID"
               value={this.state.clientID}
               onChange={this.onChangeClientID}
+              onPressEnter={() => this.handleOk()}
             />
           </Modal>
         </Card>
