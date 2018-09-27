@@ -71,7 +71,7 @@ srs2_data = (
     'test, scores, create_function, score_function',
     [
         cbcl_6_18_data,
-        cbcl_1_5_data,
+        # cbcl_1_5_data,
         conners3_parent_data,
         tscyc_data,
         scared_data,

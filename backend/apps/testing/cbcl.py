@@ -287,5 +287,5 @@ def calculate_cbcl_1_5_test_scores(test):
     raw_scores = calculate_raw_scores(test)
     raw_scores['internal'] = raw_scores['I'] + raw_scores['II'] + raw_scores['III'] + raw_scores['IV']
     raw_scores['external'] = raw_scores['VI'] + raw_scores['VII']
-    raw_scores['tot prob'] = raw_scores['V'] + raw_scores['other']
+    raw_scores['tot prob'] = raw_scores['V'] + raw_scores['other'] + raw_scores['internal'] + raw_scores['external']
     return convert_to_return_value(raw_scores, cbcl_1_5_results_order, test)
