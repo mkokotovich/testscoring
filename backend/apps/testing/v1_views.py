@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.exceptions import APIException
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import filters
@@ -96,10 +96,13 @@ class TestViewSet(viewsets.ModelViewSet):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
-        if self.request.method == 'POST':
+        if self.action == 'create':
             self.permission_classes = [IsAuthenticated]
+        elif self.action == 'types':
+            self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [IsOwnerPermission]
+
         return super().get_permissions()
 
     @action(detail=True)
@@ -113,11 +116,12 @@ class TestViewSet(viewsets.ModelViewSet):
 
     @action(detail=False)
     def types(self, request):
-        test_types = [choice[0] for choice in Test.TEST_TYPE_CHOICES]
-        response = {
-            'types': test_types
-        }
-        return Response(response)
+        test_types = [{
+            'slug': choice[0],
+            'name': choice[1],
+        } for choice in Test.TEST_TYPE_CHOICES]
+
+        return Response(test_types)
 
 
 class ItemViewSet(viewsets.ModelViewSet):

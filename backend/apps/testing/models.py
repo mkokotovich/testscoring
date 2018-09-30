@@ -17,14 +17,14 @@ class Test(models.Model):
     SCARED = 'scared'
     TSCC = 'tscc'
     TEST_TYPE_CHOICES = (
-        (CBCL_6_18, CBCL_6_18),
-        (CBCL_1_5, CBCL_1_5),
-        (CONNERS3_PARENT, CONNERS3_PARENT),
-        (TSCYC, TSCYC),
-        (BRIEF2, BRIEF2),
-        (SRS2, SRS2),
-        (SCARED, SCARED),
-        (TSCC, TSCC),
+        (CBCL_6_18, 'CBCL 6-18'),
+        (CBCL_1_5, 'CBCL 1.5-5'),
+        (CONNERS3_PARENT, 'Conners 3 - Parent'),
+        (TSCYC, 'TSCYC'),
+        (BRIEF2, 'BRIEF2'),
+        (SRS2, 'SRS2'),
+        (SCARED, 'SCARED'),
+        (TSCC, 'TSCC'),
     )
     test_type = models.CharField(
         max_length=16,

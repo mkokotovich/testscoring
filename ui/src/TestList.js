@@ -89,7 +89,11 @@ class TestList extends Component {
   render() {
     const tests = this.state.tests.map(test =>
       <div key={test.id}>
-        <Test test={test} handleDelete={this.handleDelete} />
+        <Test
+          test={test}
+          handleDelete={this.handleDelete}
+          assessmentBySlug={this.props.assessmentBySlug}
+        />
         <Divider />
       </div>
     );

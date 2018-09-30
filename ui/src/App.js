@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Link } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Modal, Row, Col } from 'antd';
+import axios from 'axios';
 import './App.css';
 import SignIn from './SignIn';
 import Home from './Home';
@@ -15,9 +16,42 @@ import ResetPassword from './ResetPassword';
 class App extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      user: null
+      user: null,
+      assessmentBySlug: {},
     };
+  }
+
+  setAssessmentBySlug = (abs) => {
+    this.setState({assessmentBySlug: abs});
+  }
+
+  componentDidMount() {
+    this.retrieveTestTypes();
+  }
+
+  retrieveTestTypes = () => {
+    axios.get('/api/testing/v1/tests/types/')
+      .then((response) => {
+        this.setState({
+          assessments: response.data,
+        });
+        this.setAssessmentBySlug(response.data.reduce(
+          (accumulator, currentValue, currentIndex, array) => {
+            accumulator[currentValue.slug] = currentValue.name;
+            return accumulator;
+          }, {}));
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        Modal.error({
+          title: "Unable to retrieve list of tests",
+          content: "Unable to retrieve list of tests. Please refresh page and try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
+          maskClosable: true,
+        })
+      });
   }
 
   handleAuthChange = (user) => {
@@ -42,7 +76,7 @@ class App extends Component {
           exact
           path="/"
           render={() => {
-            return <Home signedInUser={this.state.user}/>;
+            return <Home signedInUser={this.state.user} assessments={this.state.assessments}/>;
           }}
         />
         <Route
@@ -72,7 +106,9 @@ class App extends Component {
         <Route
           exact
           path={`/tests`}
-          component={TestList}
+          render={() => {
+            return <TestList assessmentBySlug={this.state.assessmentBySlug}/>;
+          }}
         />
         <Route
           exact 

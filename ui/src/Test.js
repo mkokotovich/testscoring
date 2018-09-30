@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { Button, Row, Col, Popconfirm } from 'antd';
 import './Test.css';
 import * as moment from 'moment';
-import { assessmentBySlug } from './Constants';
 
 class Test extends Component {
   state = {
@@ -22,7 +21,7 @@ class Test extends Component {
           </Col>
           <Col className="TestDetail" xs={10} sm={10} md={4} >
             <Link to={`/tests/?type=${this.props.test.test_type}`}>
-              {assessmentBySlug[this.props.test.test_type]}
+              {this.props.assessmentBySlug[this.props.test.test_type]}
             </Link>
           </Col>
           <Col className="TestDetail" xs={8} sm={8} md={3} >

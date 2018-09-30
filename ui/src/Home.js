@@ -3,14 +3,13 @@ import { Link, withRouter } from 'react-router-dom';
 import { Row, Modal, Spin } from 'antd';
 import StartTest from './StartTest';
 import Search from './Search';
-import { assessments } from './Constants';
 import axios from 'axios';
 import './Home.css';
 
 class Home extends Component {
 
   state = {
-    loading: false
+    loading: false,
   }
 
   componentDidMount() {
@@ -37,27 +36,21 @@ class Home extends Component {
 
   render() {
     if (!this.props.signedInUser) {
-      const listOfTests = assessments.map((assessment, index) =>
-        <li key={index}>{assessment.name}</li>
-      );
-
       return (
         <div className="Home">
           <h1>Welcome to Test Scoring</h1>
           <div align="center">
             { this.state.loading && <Spin size="large" />}
           </div>
-          Sign in to access scoring tools for the following tests:
-          <ul>
-            { listOfTests }
-          </ul>
+          Sign in to access scoring tools.
+          <br/>
           <br/>
           <Link to="/forgot">Forgot your password?</Link>
         </div>
       );
     }
 
-    const startTests = assessments.map((assessment, index) =>
+    const startTests = this.props.assessments && this.props.assessments.map((assessment, index) =>
       <StartTest
         key={index}
         assessment={assessment}
