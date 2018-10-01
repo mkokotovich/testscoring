@@ -20,8 +20,7 @@ from tests.internal.data.srs2_scores import scores as srs2_scores
 cbcl_6_18_data = (
     cbcl_6_18_test,
     cbcl_6_18_scores,
-    cbcl.create_cbcl_6_18_test_items,
-    cbcl.calculate_cbcl_6_18_test_scores,
+    cbcl.CBCL_6_18(),
 )
 
 
@@ -29,46 +28,41 @@ cbcl_6_18_data = (
 cbcl_1_5_data = (
     cbcl_1_5_test,
     cbcl_1_5_scores,
-    cbcl.create_cbcl_1_5_test_items,
-    cbcl.calculate_cbcl_1_5_test_scores,
+    cbcl.CBCL_1_5()
 )
 
 
 conners3_parent_data = (
     conners3_parent_test,
     conners3_parent_scores,
-    conners.create_conners3_parent_test_items,
-    conners.calculate_conners3_parent_test_scores,
+    conners.Conners3Parent(),
 )
 
 
 tscyc_data = (
     tscyc_test,
     tscyc_scores,
-    tscyc.create_tscyc_test_items,
-    tscyc.calculate_tscyc_test_scores,
+    tscyc.TSCYC(),
 )
 
 
 scared_data = (
     scared_test,
     scared_scores,
-    scared.create_scared_test_items,
-    scared.calculate_scared_test_scores,
+    scared.SCARED(),
 )
 
 
 srs2_data = (
     srs2_test,
     srs2_scores,
-    srs.create_srs2_test_items,
-    srs.calculate_srs2_test_scores,
+    srs.SRS2(),
 )
 
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    'test, scores, create_function, score_function',
+    'test, scores, assessment',
     [
         cbcl_6_18_data,
         # cbcl_1_5_data,
@@ -78,16 +72,16 @@ srs2_data = (
         srs2_data,
     ]
 )
-def test_test_creation_and_scoring(test, scores, create_function, score_function):
+def test_test_creation_and_scoring(test, scores, assessment):
     owner = User.objects.create(username="test")
     test_obj = models.Test.objects.create(
         owner=owner,
         client_number=test['client_number'],
         test_type=test['test_type'],
     )
-    create_function(test_obj.id)
+    assessment.create_test(test_obj.id)
     for index, item in enumerate(test_obj.items.all()):
         item.score = test['items'][index]['score']
         item.save()
-    score_ret = score_function(test_obj)
+    score_ret = assessment.score_test(test_obj)
     assert score_ret['scores'] == scores['scores']

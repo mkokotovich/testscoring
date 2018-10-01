@@ -9,59 +9,26 @@ from django_filters.rest_framework import DjangoFilterBackend
 from apps.testing.models import Test, Item
 from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
 from apps.testing.permissions import IsOwnerPermission, IsTestOwnerPermission
-from apps.testing.cbcl import (
-    create_cbcl_6_18_test_items,
-    create_cbcl_1_5_test_items,
-    calculate_cbcl_6_18_test_scores,
-    calculate_cbcl_1_5_test_scores,
-)
-from apps.testing.conners import (
-    create_conners3_parent_test_items,
-    calculate_conners3_parent_test_scores,
-)
-from apps.testing.tscyc import (
-    create_tscyc_test_items,
-    calculate_tscyc_test_scores,
-)
-from apps.testing.brief import (
-    create_brief2_test_items,
-    calculate_brief2_test_scores,
-)
-from apps.testing.srs import (
-    create_srs2_test_items,
-    calculate_srs2_test_scores,
-)
-from apps.testing.scared import (
-    create_scared_test_items,
-    calculate_scared_test_scores,
-)
-from apps.testing.tscc import (
-    create_tscc_test_items,
-    calculate_tscc_test_scores,
-)
+from apps.testing.cbcl import CBCL_6_18, CBCL_1_5
+from apps.testing.conners import Conners3Parent
+from apps.testing.tscyc import TSCYC
+from apps.testing.brief import Brief2
+from apps.testing.srs import SRS2
+from apps.testing.scared import SCARED
+from apps.testing.tscc import TSCC
 
 
-create_functions = {
-    Test.CBCL_6_18: create_cbcl_6_18_test_items,
-    Test.CBCL_1_5: create_cbcl_1_5_test_items,
-    Test.CONNERS3_PARENT: create_conners3_parent_test_items,
-    Test.TSCYC: create_tscyc_test_items,
-    Test.BRIEF2: create_brief2_test_items,
-    Test.SRS2: create_srs2_test_items,
-    Test.SCARED: create_scared_test_items,
-    Test.TSCC: create_tscc_test_items,
-}
-
-score_functions = {
-    Test.CBCL_6_18: calculate_cbcl_6_18_test_scores,
-    Test.CBCL_1_5: calculate_cbcl_1_5_test_scores,
-    Test.CONNERS3_PARENT: calculate_conners3_parent_test_scores,
-    Test.TSCYC: calculate_tscyc_test_scores,
-    Test.BRIEF2: calculate_brief2_test_scores,
-    Test.SRS2: calculate_srs2_test_scores,
-    Test.SCARED: calculate_scared_test_scores,
-    Test.TSCC: calculate_tscc_test_scores,
-}
+# Add new assessments to this list
+assessments = [
+    CBCL_6_18(),
+    CBCL_1_5(),
+    Conners3Parent(),
+    TSCYC(),
+    Brief2(),
+    SRS2(),
+    SCARED(),
+    TSCC(),
+]
 
 
 class TestViewSet(viewsets.ModelViewSet):
@@ -81,15 +48,20 @@ class TestViewSet(viewsets.ModelViewSet):
         else:
             return TestSerializer
 
+    def _find_assessment(self, test_type):
+        return next((assessment for assessment in assessments
+                    if assessment.test_type == test_type),
+                    None)
+
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
 
     def create(self, request):
         response = super().create(request)
-        create_test = create_functions.get(response.data['test_type'], None)
-        if not create_test:
+        assessment = self._find_assessment(response.data['test_type'])
+        if not assessment:
             raise APIException(f"Test type {response.data['test_type']} is not supported")
-        create_test(response.data['id'])
+        assessment.create_test(response.data['id'])
         return response
 
     def get_permissions(self):
@@ -108,10 +80,10 @@ class TestViewSet(viewsets.ModelViewSet):
     @action(detail=True)
     def scores(self, request, pk=None):
         test = Test.objects.prefetch_related('items').get(id=pk)
-        score_test = score_functions.get(test.test_type, None)
-        if not score_test:
+        assessment = self._find_assessment(test.test_type)
+        if not assessment:
             raise APIException(f"Test type {test.test_type} is not supported")
-        scores = score_test(test)
+        scores = assessment.score_test(test)
         return Response(scores)
 
     @action(detail=False)

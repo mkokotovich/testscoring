@@ -11,46 +11,58 @@ class ItemDescription:
         self.group = group
 
 
-def create_test_items(test_id, item_descriptions):
-    test = Test.objects.get(id=test_id)
-    [
-        Item.objects.create(
-            test=test,
-            number=item.number,
-            description=item.description,
-            group=item.group
-        ) for item in item_descriptions
-    ]
+class BaseAssessment():
+    # You will need to provide test_type, items and results_order
+    test_type = ''
+    items = []
+    results_order = []
 
+    # You will need to override this method
+    def score_test(self, test):
+        pass
 
-def convert_to_return_value(raw_scores, results_order, test):
-    score_list = [
-        {'group': result, 'score': raw_scores.pop(result, None)}
-        for result in results_order
-    ]
+    # This method will likely be fine left as is
+    def create_test(self, test_id):
+        self._create_test_items(test_id, self.items)
 
-    # Just ignore scores that do not belong to groups
-    raw_scores.pop('none', None)
+    def _create_test_items(self, test_id, item_descriptions):
+        test = Test.objects.get(id=test_id)
+        [
+            Item.objects.create(
+                test=test,
+                number=item.number,
+                description=item.description,
+                group=item.group
+            ) for item in item_descriptions
+        ]
 
-    if raw_scores.keys():
-        # There should not be anything left in raw scores
-        raise APIException(f"Extra data was in raw scores, check scoring logic. Extra data: {raw_scores.keys()}")
+    def _convert_to_return_value(self, raw_scores, results_order, test):
+        score_list = [
+            {'group': result, 'score': raw_scores.pop(result, None)}
+            for result in results_order
+        ]
 
-    serializer = TestSerializer(test)
-    return {"scores": score_list, "test": serializer.data}
+        # Just ignore scores that do not belong to groups
+        raw_scores.pop('none', None)
 
+        if raw_scores.keys():
+            # There should not be anything left in raw scores
+            raise APIException(f"Extra data was in raw scores, check scoring logic. Extra data: {raw_scores.keys()}")
 
-def calculate_raw_scores(test):
-    raw_scores = {}
-    for item in test.items.all():
-        # First validate that score has been set
-        if item.score is None:
-            raise APIException(f"Unable to calculate score, item {item.number} does not have a score")
+        serializer = TestSerializer(test)
+        return {"scores": score_list, "test": serializer.data}
 
-        # Some items need to be counted in multiple groups
-        for group in item.groups:
-            # If this is the first item in this group, initialize old_score to 0
-            old_score = raw_scores.get(group, 0)
-            raw_scores[group] = old_score + item.score
+    def _calculate_raw_scores(self, test):
+        raw_scores = {}
+        for item in test.items.all():
+            # First validate that score has been set
+            if item.score is None:
+                raise APIException(f"Unable to calculate score, item {item.number} does not have a score")
 
-    return raw_scores
+            # Some items need to be counted in multiple groups
+            for group in item.groups:
+                # If this is the first item in this group, initialize old_score to 0
+                old_score = raw_scores.get(group, 0)
+                raw_scores[group] = old_score + item.score
+
+        return raw_scores
