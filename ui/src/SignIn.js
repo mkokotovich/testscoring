@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Button } from 'antd';
+import { Modal, Button, Dropdown, Menu } from 'antd';
 import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import decode from 'jwt-decode';
@@ -8,20 +8,29 @@ import SignInForm from './SignInForm'
 
 
 function SignOut(props) {
+  const menuClick = ({ key }) => {
+    if (key === "signout") {
+      props.handleSignOut();
+    } else if (key === "profile") {
+      props.handleProfile();
+    }
+  };
+
+  const menu = (
+    <Menu onClick={menuClick}>
+      <Menu.Item key="profile">Profile</Menu.Item>
+      <Menu.Item key="signout">Sign Out</Menu.Item>
+    </Menu>
+  );
+
   return (
-    <div>
-      <Button 
-        onClick={props.handleProfile}
-        icon="user">
-        {props.username} 
-      </Button>
-      &nbsp;
-      <Button 
-        type="primary"
-        onClick={props.handleSignOut}>
-        Sign Out
-      </Button>
-    </div>
+    <React.Fragment>
+      <Dropdown overlay={menu} placement="bottomRight">
+        <Button type="default" icon="user">
+          {props.username}
+        </Button>
+      </Dropdown>
+    </React.Fragment>
   );
 }
 
