@@ -10,6 +10,13 @@ class ItemList extends Component {
     this.itemRefs = {};
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.items == undefined && this.props.items) {
+      // This is the first time the items have been displayed, focus the first item
+      this.changeFocus(-1);
+    }
+  }
+
   changeFocus = (index) => {
     if (this.props.items.length > (index + 1)) {
       if (this.itemRefs[index + 1]) {
