@@ -101,10 +101,13 @@ class TestEdit extends Component {
       }
       return filtered;
     }, []);
+    const verb = this.props.readonly ? "Viewing" :
+                 this.props.verify ? "Verifying" :
+                 "Editing";
 
     return (
       <div className="TestEdit">
-        <h2>Test {testId}: {this.state.test.test_type} for client {this.state.test.client_number}</h2>
+        <h2>{verb} {this.state.test.test_type} for client {this.state.test.client_number}</h2>
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>

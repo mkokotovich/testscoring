@@ -47,7 +47,7 @@ class TestScores extends Component {
     const testId = this.props.match.params.testId;
     return (
       <div className="TestScores">
-        <h2>Scores for test {testId}</h2>
+        { this.state.testScores.test && <h2>Scores for {this.state.testScores.test.test_type} for client {this.state.testScores.test.client_number}</h2> }
         <div align="center">
           { this.state.loading && <Spin size="large" />}
         </div>
