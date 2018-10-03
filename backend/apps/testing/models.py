@@ -11,6 +11,7 @@ class Test(models.Model):
     CBCL_6_18 = 'cbcl_6_18'
     CBCL_1_5 = 'cbcl_1_5'
     CONNERS3_PARENT = 'conners3_parent'
+    CONNERS3_SELF = 'conners3_self'
     TSCYC = 'tscyc'
     BRIEF2 = 'brief2'
     SRS2 = 'srs2'
@@ -20,6 +21,7 @@ class Test(models.Model):
         (CBCL_6_18, 'CBCL 6-18'),
         (CBCL_1_5, 'CBCL 1.5-5'),
         (CONNERS3_PARENT, 'Conners 3 - Parent'),
+        (CONNERS3_SELF, 'Conners 3 - Self'),
         (TSCYC, 'TSCYC'),
         (BRIEF2, 'BRIEF2'),
         (SRS2, 'SRS2'),

@@ -10,7 +10,7 @@ from apps.testing.models import Test, Item
 from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
 from apps.testing.permissions import IsOwnerPermission, IsTestOwnerPermission
 from apps.testing.cbcl import CBCL_6_18, CBCL_1_5
-from apps.testing.conners import Conners3Parent
+from apps.testing.conners import Conners3Parent, Conners3Self
 from apps.testing.tscyc import TSCYC
 from apps.testing.brief import Brief2
 from apps.testing.srs import SRS2
@@ -23,6 +23,7 @@ assessments = [
     CBCL_6_18(),
     CBCL_1_5(),
     Conners3Parent(),
+    Conners3Self(),
     TSCYC(),
     Brief2(),
     SRS2(),
