@@ -9,6 +9,8 @@ from tests.internal.data.cbcl_1_5_test import test as cbcl_1_5_test
 from tests.internal.data.cbcl_1_5_scores import scores as cbcl_1_5_scores
 from tests.internal.data.conners3_parent_test import test as conners3_parent_test
 from tests.internal.data.conners3_parent_scores import scores as conners3_parent_scores
+from tests.internal.data.conners3_self_test import test as conners3_self_test
+from tests.internal.data.conners3_self_scores import scores as conners3_self_scores
 from tests.internal.data.tscyc_test import test as tscyc_test
 from tests.internal.data.tscyc_scores import scores as tscyc_scores
 from tests.internal.data.scared_test import test as scared_test
@@ -37,6 +39,13 @@ conners3_parent_data = (
     conners3_parent_test,
     conners3_parent_scores,
     conners.Conners3Parent(),
+)
+
+
+conners3_self_data = (
+    conners3_self_test,
+    conners3_self_scores,
+    conners.Conners3Self(),
 )
 
 
@@ -75,6 +84,7 @@ brief2_data = (
         cbcl_6_18_data,
         cbcl_1_5_data,
         conners3_parent_data,
+        conners3_self_data,
         tscyc_data,
         scared_data,
         srs2_data,
