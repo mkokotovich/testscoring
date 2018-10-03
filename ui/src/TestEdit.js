@@ -93,7 +93,6 @@ class TestEdit extends Component {
   }
 
   render() {
-    const testId = this.props.match.params.testId;
     const allVerified = this.state.test.items ? Object.keys(this.state.conflicts).length === this.state.test.items.length : false;
     const inconsistencies = Object.keys(this.state.conflicts).reduce((filtered, key) => {
       if (this.state.conflicts[key]) {

@@ -44,7 +44,6 @@ class TestScores extends Component {
   }
 
   render() {
-    const testId = this.props.match.params.testId;
     return (
       <div className="TestScores">
         { this.state.testScores.test && <h2>Scores for {this.state.testScores.test.test_type} for client {this.state.testScores.test.client_number}</h2> }
