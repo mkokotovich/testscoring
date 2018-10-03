@@ -24,7 +24,6 @@ cbcl_6_18_data = (
 )
 
 
-# TODO: these scores are unverified, replace with verified scores
 cbcl_1_5_data = (
     cbcl_1_5_test,
     cbcl_1_5_scores,
@@ -65,7 +64,7 @@ srs2_data = (
     'test, scores, assessment',
     [
         cbcl_6_18_data,
-        # cbcl_1_5_data,
+        cbcl_1_5_data,
         conners3_parent_data,
         tscyc_data,
         scared_data,
