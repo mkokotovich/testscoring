@@ -1,6 +1,4 @@
-[![Build Status](https://travis-ci.org/mkokotovich/testscoring.svg?branch=master)](https://travis-ci.org/mkokotovich/testscoring)
-
-# testscoring
+# testscoring &nbsp;&nbsp;&nbsp;&nbsp; [![Build Status](https://travis-ci.org/mkokotovich/testscoring.svg?branch=master)](https://travis-ci.org/mkokotovich/testscoring)
 
 ### Local Development
 To bring up the backend: `docker-compose up`. Then run `scripts/first_run.sh` to apply initial migrations and create a test user.
