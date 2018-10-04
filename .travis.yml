@@ -5,12 +5,13 @@ services:
   - postgresql
 install:
   - pip install -r backend/requirements_test.txt
-before_script:
-  - psql -c 'create database testscoring;' -U postgres
-  - cd backend && python manage.py migrate
 env:
   - DATABASE_URL=postgres://postgres@localhost/testscoring
     ENVIRON=local
     DJANGO_SETTINGS_MODULE=api.settings.local
+before_script:
+  - cd backend
+  - psql -c 'create database testscoring;' -U postgres
+  - python manage.py migrate
 script:
-  - cd backend/tests && pytest
+  - pytest
