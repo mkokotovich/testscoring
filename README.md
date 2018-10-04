@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mkokotovich/testscoring.svg?branch=master)](https://travis-ci.org/mkokotovich/testscoring)
+
 # testscoring
 
 ### Local Development
