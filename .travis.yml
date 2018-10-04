@@ -9,8 +9,8 @@ before_script:
   - psql -c 'create database testscoring;' -U postgres
 env:
   - DATABASE_URL=postgres://postgres@localhost/testscoring
-  - ENVIRON=local
-  - DJANGO_SETTINGS_MODULE=api.settings.local
-  - DJANGO_SECRET_KEY="fake secret only used for testing"
+    ENVIRON=local
+    DJANGO_SETTINGS_MODULE=api.settings.local
+    DJANGO_SECRET_KEY="fake secret only used for testing"
 script:
   - cd backend/tests && pytest
