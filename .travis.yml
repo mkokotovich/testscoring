@@ -1,0 +1,15 @@
+language: python
+python:
+  - 3.7
+services:
+  - postgresql
+install:
+  - pip install -r backend/requirements_test.txt
+before_script:
+  - psql -c 'create database testscoring;' -U postgres
+environment:
+  - DATABASE_URL=postgres://postgres@localhost/testscoring
+  - ENVIRON=local
+  - DJANGO_SETTINGS_MODULE=api.settings.local
+script:
+  - cd backend/tests && pytest
