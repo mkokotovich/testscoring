@@ -21,14 +21,14 @@ class Search extends Component {
   render() {
 
     return (
-      <div className="Search">
+      <div className="Search" style={{ marginBottom: 5}}>
         <Input.Search
           placeholder="Search by Client ID"
           enterButton="Search"
           style={{ width: 250 }}
           onSearch={value => this.searchByID(value)}
         />
-        <Button style={{ margin: 5 }} onClick={this.viewAll} >All Tests</Button>
+        <Button style={{ marginLeft: 5 }} onClick={this.viewAll} >All Tests</Button>
       </div>
     );
   }
