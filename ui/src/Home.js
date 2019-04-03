@@ -37,7 +37,7 @@ class Home extends Component {
   render() {
     if (!this.props.signedInUser) {
       return (
-        <div className="Home">
+        <div className="HomeNoAuth">
           <h1>Welcome to Test Scoring</h1>
           <div align="center">
             { this.state.loading && <Spin size="large" />}

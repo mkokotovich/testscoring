@@ -16,6 +16,7 @@ from apps.testing.brief import Brief2
 from apps.testing.srs import SRS2
 from apps.testing.scared import SCARED
 from apps.testing.tscc import TSCC
+from apps.testing.asrs import ASRS_6_18
 
 
 # Add new assessments to this list
@@ -29,6 +30,7 @@ assessments = [
     SRS2(),
     SCARED(),
     TSCC(),
+    ASRS_6_18(),
 ]
 
 

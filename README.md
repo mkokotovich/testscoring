@@ -37,3 +37,10 @@ The TESTID variable is the id from the URL when viewing the test. Move two files
 Then add the new test and scoring data to `backend/tests/internal/apps/testing/test_scoring.py`. Again, follow the existing patterns and it should be pretty straightforward. 
 
 Tests can be ran by exec'ing into the docker container (`docker-compose exec api sh`) and running `cd backend/tests; pytest`
+
+### Tests remaining to add
+- Brief-P
+- ASRS 2-5
+- Masc-2 Parent
+- Masc-2 Self
+- CDI-2 Self

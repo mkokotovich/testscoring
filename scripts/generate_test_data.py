@@ -4,8 +4,11 @@ import os
 import requests
 
 
-def login(username, password):
-    url = 'https://testscoring.herokuapp.com/api/auth/'
+DEFAULT_BASE_URL = 'https://testscoring.herokuapp.com'
+
+
+def login(base_url, username, password):
+    url = f'{base_url}/api/auth/'
     data = {
         'username': username,
         'password': password,
@@ -17,8 +20,8 @@ def login(username, password):
     return response.json()['token']
 
 
-def get_test(token, test_id):
-    url = f'https://testscoring.herokuapp.com/api/testing/v1/tests/{test_id}/'
+def get_test(base_url, token, test_id):
+    url = f'{base_url}/api/testing/v1/tests/{test_id}/'
     headers = {
         'Authorization': f'Bearer {token}',
     }
@@ -29,8 +32,8 @@ def get_test(token, test_id):
     return response.json()
 
 
-def get_scores(token, test_id):
-    url = f'https://testscoring.herokuapp.com/api/testing/v1/tests/{test_id}/scores/'
+def get_scores(base_url, token, test_id):
+    url = f'{base_url}/api/testing/v1/tests/{test_id}/scores/'
     headers = {
         'Authorization': f'Bearer {token}',
     }
@@ -56,9 +59,11 @@ def main():
         print("Please set TESTID env variable")
         return -1
 
-    token = login(username, password)
-    test = get_test(token, test_id)
-    scores = get_scores(token, test_id)
+    base_url = os.getenv('BASE_URL', DEFAULT_BASE_URL)
+
+    token = login(base_url, username, password)
+    test = get_test(base_url, token, test_id)
+    scores = get_scores(base_url, token, test_id)
 
     with open(f'test_{test_id}_test.py', 'w') as outfile:
         outfile.write("test = ")

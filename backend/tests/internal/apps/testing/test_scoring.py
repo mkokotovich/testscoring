@@ -2,7 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 
 from apps.testing import models
-from apps.testing import (cbcl, conners, tscyc, scared, srs, brief)
+from apps.testing import (cbcl, conners, tscyc, scared, srs, brief, asrs)
 from tests.internal.data.cbcl_6_18_test import test as cbcl_6_18_test
 from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
 from tests.internal.data.cbcl_1_5_test import test as cbcl_1_5_test
@@ -19,6 +19,8 @@ from tests.internal.data.srs2_test import test as srs2_test
 from tests.internal.data.srs2_scores import scores as srs2_scores
 from tests.internal.data.brief2_test import test as brief2_test
 from tests.internal.data.brief2_scores import scores as brief2_scores
+from tests.internal.data.asrs_6_18_test import test as asrs_6_18_test
+from tests.internal.data.asrs_6_18_scores import scores as asrs_6_18_scores
 
 
 cbcl_6_18_data = (
@@ -77,6 +79,13 @@ brief2_data = (
 )
 
 
+asrs_6_18_data = (
+    asrs_6_18_test,
+    asrs_6_18_scores,
+    asrs.ASRS_6_18(),
+)
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'test, scores, assessment',
@@ -89,6 +98,7 @@ brief2_data = (
         scared_data,
         srs2_data,
         brief2_data,
+        asrs_6_18_data,
     ]
 )
 def test_test_creation_and_scoring(test, scores, assessment):
