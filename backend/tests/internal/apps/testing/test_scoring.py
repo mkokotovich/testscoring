@@ -21,6 +21,8 @@ from tests.internal.data.brief2_test import test as brief2_test
 from tests.internal.data.brief2_scores import scores as brief2_scores
 from tests.internal.data.asrs_6_18_test import test as asrs_6_18_test
 from tests.internal.data.asrs_6_18_scores import scores as asrs_6_18_scores
+from tests.internal.data.asrs_2_5_test import test as asrs_2_5_test
+from tests.internal.data.asrs_2_5_scores import scores as asrs_2_5_scores
 
 
 cbcl_6_18_data = (
@@ -86,6 +88,13 @@ asrs_6_18_data = (
 )
 
 
+asrs_2_5_data = (
+    asrs_2_5_test,
+    asrs_2_5_scores,
+    asrs.ASRS_2_5(),
+)
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'test, scores, assessment',
@@ -99,6 +108,7 @@ asrs_6_18_data = (
         srs2_data,
         brief2_data,
         asrs_6_18_data,
+        asrs_2_5_data,
     ]
 )
 def test_test_creation_and_scoring(test, scores, assessment):
