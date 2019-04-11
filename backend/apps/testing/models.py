@@ -14,6 +14,7 @@ class Test(models.Model):
     CONNERS3_SELF = 'conners3_self'
     TSCYC = 'tscyc'
     BRIEF2 = 'brief2'
+    BRIEFP = 'briefp'
     SRS2 = 'srs2'
     SCARED = 'scared'
     TSCC = 'tscc'
@@ -26,6 +27,7 @@ class Test(models.Model):
         (CONNERS3_SELF, 'Conners 3 - Self'),
         (TSCYC, 'TSCYC'),
         (BRIEF2, 'BRIEF2'),
+        (BRIEFP, 'BRIEF-P'),
         (SRS2, 'SRS2'),
         (SCARED, 'SCARED'),
         (TSCC, 'TSCC'),

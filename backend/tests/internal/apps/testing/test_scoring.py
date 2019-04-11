@@ -19,6 +19,8 @@ from tests.internal.data.srs2_test import test as srs2_test
 from tests.internal.data.srs2_scores import scores as srs2_scores
 from tests.internal.data.brief2_test import test as brief2_test
 from tests.internal.data.brief2_scores import scores as brief2_scores
+from tests.internal.data.briefp_test import test as briefp_test
+from tests.internal.data.briefp_scores import scores as briefp_scores
 from tests.internal.data.asrs_6_18_test import test as asrs_6_18_test
 from tests.internal.data.asrs_6_18_scores import scores as asrs_6_18_scores
 from tests.internal.data.asrs_2_5_test import test as asrs_2_5_test
@@ -81,6 +83,13 @@ brief2_data = (
 )
 
 
+briefp_data = (
+    briefp_test,
+    briefp_scores,
+    brief.BriefP(),
+)
+
+
 asrs_6_18_data = (
     asrs_6_18_test,
     asrs_6_18_scores,
@@ -107,6 +116,7 @@ asrs_2_5_data = (
         scared_data,
         srs2_data,
         brief2_data,
+        briefp_data,
         asrs_6_18_data,
         asrs_2_5_data,
     ]
