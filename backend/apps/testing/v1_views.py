@@ -17,6 +17,7 @@ from apps.testing.srs import SRS2
 from apps.testing.scared import SCARED
 from apps.testing.tscc import TSCC
 from apps.testing.asrs import ASRS_6_18, ASRS_2_5
+from apps.testing.masc2 import MASC2Self, MASC2Parent
 
 
 # Add new assessments to this list
@@ -33,6 +34,8 @@ assessments = [
     TSCC(),
     ASRS_6_18(),
     ASRS_2_5(),
+    MASC2Self(),
+    MASC2Parent(),
 ]
 
 

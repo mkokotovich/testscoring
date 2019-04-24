@@ -20,6 +20,8 @@ class Test(models.Model):
     TSCC = 'tscc'
     ASRS_6_18 = 'asrs_6_18'
     ASRS_2_5 = 'asrs_2_5'
+    MASC2_SELF = 'masc2_self'
+    MASC2_PARENT = 'masc2_parent'
     TEST_TYPE_CHOICES = (
         (CBCL_6_18, 'CBCL 6-18'),
         (CBCL_1_5, 'CBCL 1.5-5'),
@@ -33,6 +35,8 @@ class Test(models.Model):
         (TSCC, 'TSCC'),
         (ASRS_6_18, 'ASRS 6-18'),
         (ASRS_2_5, 'ASRS 2-5'),
+        (MASC2_SELF, 'MASC 2 - Self'),
+        (MASC2_PARENT, 'MASC 2 - Parent'),
     )
     test_type = models.CharField(
         max_length=16,

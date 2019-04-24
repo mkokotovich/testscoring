@@ -3,6 +3,8 @@ max-line-length = 160
 ignore =
     # H306: imports not in alphabetical order (time, os)
     H306,
+    # W503: line break before binary operator
+    W503,
 exclude =
     .git,
     __pycache__,
