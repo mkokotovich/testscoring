@@ -2,7 +2,7 @@ import pytest
 from django.contrib.auth.models import User
 
 from apps.testing import models
-from apps.testing import (cbcl, conners, tscyc, scared, srs, brief, asrs, masc2)
+from apps.testing import (cbcl, conners, tscyc, scared, srs, brief, asrs, masc2, cdi2)
 from tests.internal.data.cbcl_6_18_test import test as cbcl_6_18_test
 from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
 from tests.internal.data.cbcl_1_5_test import test as cbcl_1_5_test
@@ -29,6 +29,8 @@ from tests.internal.data.masc2_self_test import test as masc2_self_test
 from tests.internal.data.masc2_self_scores import scores as masc2_self_scores
 from tests.internal.data.masc2_parent_test import test as masc2_parent_test
 from tests.internal.data.masc2_parent_scores import scores as masc2_parent_scores
+from tests.internal.data.cdi2_self_test import test as cdi2_self_test
+from tests.internal.data.cdi2_self_scores import scores as cdi2_self_scores
 
 
 cbcl_6_18_data = (
@@ -122,6 +124,13 @@ masc2_self_data = (
 )
 
 
+cdi2_self_data = (
+    cdi2_self_test,
+    cdi2_self_scores,
+    cdi2.CDI2Self(),
+)
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'test, scores, assessment',
@@ -139,6 +148,7 @@ masc2_self_data = (
         asrs_2_5_data,
         masc2_self_data,
         masc2_parent_data,
+        cdi2_self_data,
     ]
 )
 def test_test_creation_and_scoring(test, scores, assessment):
