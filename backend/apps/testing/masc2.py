@@ -59,6 +59,7 @@ class MASC2Self(BaseAssessment):
     ]
 
     results_order = [
+        'Total',
         'S/P',
         'GAD',
         'SA:T',
@@ -69,7 +70,6 @@ class MASC2Self(BaseAssessment):
         'P',
         'T/R',
         'HA',
-        'Total',
         'Inconsistency Index',
     ]
 
@@ -157,6 +157,7 @@ class MASC2Parent(BaseAssessment):
     ]
 
     results_order = [
+        'Total',
         'S/P',
         'GAD',
         'SA:T',
@@ -167,7 +168,6 @@ class MASC2Parent(BaseAssessment):
         'P',
         'T/R',
         'HA',
-        'Total',
         'Inconsistency Index',
     ]
 
