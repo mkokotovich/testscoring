@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from rest_framework.exceptions import APIException
+from rest_framework.exceptions import APIException, ValidationError
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -90,6 +90,9 @@ class TestViewSet(viewsets.ModelViewSet):
     @action(detail=True)
     def scores(self, request, pk=None):
         test = Test.objects.prefetch_related('items').get(id=pk)
+        if test.is_archived:
+            test.restore_items()
+            test = Test.objects.prefetch_related('items').get(id=pk)
         assessment = self._find_assessment(test.test_type)
         if not assessment:
             raise APIException(f"Test type {test.test_type} is not supported")
@@ -104,6 +107,35 @@ class TestViewSet(viewsets.ModelViewSet):
         } for choice in Test.TEST_TYPE_CHOICES]
 
         return Response(test_types)
+
+    @action(detail=False, methods=['post'])
+    def archiveall(self, request):
+        users_tests = Test.objects.filter(owner=request.user).prefetch_related('items')
+        for test in users_tests:
+            if not test.is_archived:
+                test.archive_items()
+
+        users_tests = Test.objects.filter(owner=request.user).prefetch_related('items')
+        serializer = self.get_serializer_class()(users_tests, many=True)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def archive(self, request, pk=None):
+        test = Test.objects.prefetch_related('items').get(id=pk)
+        if test.is_archived:
+            raise ValidationError("Unable to archive a test that is already archived")
+        test.archive_items()
+        serializer = self.get_serializer_class()(test)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['post'])
+    def restore(self, request, pk=None):
+        test = Test.objects.prefetch_related('items').get(id=pk)
+        if not test.is_archived:
+            raise ValidationError("Unable to restore a test that isn't archived")
+        test.restore_items()
+        serializer = self.get_serializer_class()(test)
+        return Response(serializer.data)
 
 
 class ItemViewSet(viewsets.ModelViewSet):

@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
+from django.utils.dateparse import parse_datetime
 
 
 class Test(models.Model):
@@ -45,12 +47,52 @@ class Test(models.Model):
         choices=TEST_TYPE_CHOICES,
     )
 
+    archived_items = JSONField(default=list)
+
     @property
     def client_number_str(self):
         return str(self.client_number)
 
+    @property
+    def is_archived(self):
+        return bool(self.archived_items)
+
     class Meta:
         ordering = ('created_at',)
+
+    def archive_items(self):
+        json_data = [
+            {
+                'created_at': str(item.created_at),
+                'updated_at': str(item.updated_at),
+                'test': str(item.test_id),
+                'number': str(item.number),
+                'score': str(item.score),
+                'group': str(item.group),
+                'description': str(item.description),
+            }
+            for item in self.items.all()
+        ]
+        self.archived_items = json_data
+        self.save()
+        self.items.all().delete()
+
+    def restore_items(self):
+        for json_item in self.archived_items:
+            if json_item['test'] != str(self.id):
+                raise ValueError(f"Item came from test {json_item['test']}, can not restore into test {self.id}")
+
+            Item.objects.create(
+                created_at=parse_datetime(json_item['created_at']),
+                updated_at=parse_datetime(json_item['updated_at']),
+                test=self,
+                number=json_item['number'],
+                score=int(json_item['score']),
+                group=json_item['group'],
+                description=json_item['description'],
+            )
+        self.archived_items = []
+        self.save()
 
 
 class Item(models.Model):

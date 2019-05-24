@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { Modal, Spin, Divider } from 'antd';
+import { Button, Modal, Spin, Divider } from 'antd';
 import Test from './Test';
 import Search from './Search';
 import axios from 'axios';
@@ -60,6 +60,71 @@ class TestList extends Component {
       });
   }
 
+  updateStateWithNewTest = (newTest) => {
+    const updatedTests = this.state.tests.map((test) => {
+      if (test.id === newTest.id) {
+        return newTest;
+      } else {
+        return test;
+      }
+    });
+    this.setState({ tests: updatedTests });
+  }
+
+  handleArchiveAll = () => {
+    console.log("archiving all tests");
+    axios.post(`/api/testing/v1/tests/archiveall/`)
+      .then((response) => {
+        console.log(response);
+        const newTests = response.data;
+        this.setState({ tests: newTests });
+      })
+      .catch((error) => {
+        console.log(error);
+        Modal.error({
+          title: "Unable to archive all tests",
+          content: "Unable to archive all tests. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
+          maskClosable: true,
+        })
+      });
+  }
+
+  handleArchive = (testId) => {
+    console.log("archive " + testId);
+    axios.post(`/api/testing/v1/tests/${testId}/archive/`)
+      .then((response) => {
+        console.log(response);
+        const newTest = response.data;
+        this.updateStateWithNewTest(newTest);
+      })
+      .catch((error) => {
+        console.log(error);
+        Modal.error({
+          title: "Unable to archive test",
+          content: "Unable to archive test. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
+          maskClosable: true,
+        })
+      });
+  }
+
+  handleRestore = (testId) => {
+    console.log("restore " + testId);
+    axios.post(`/api/testing/v1/tests/${testId}/restore/`)
+      .then((response) => {
+        console.log(response);
+        const newTest = response.data;
+        this.updateStateWithNewTest(newTest);
+      })
+      .catch((error) => {
+        console.log(error);
+        Modal.error({
+          title: "Unable to restore test",
+          content: "Unable to restore test. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
+          maskClosable: true,
+        })
+      });
+  }
+
   handleDelete = (testId) => {
     console.log("delete " + testId);
     axios.delete(`/api/testing/v1/tests/${testId}/`)
@@ -91,6 +156,8 @@ class TestList extends Component {
       <div key={test.id}>
         <Test
           test={test}
+          handleArchive={this.handleArchive}
+          handleRestore={this.handleRestore}
           handleDelete={this.handleDelete}
           assessmentBySlug={this.props.assessmentBySlug}
         />
@@ -105,6 +172,7 @@ class TestList extends Component {
         </div>
         <Divider />
         {tests}
+        <Button onClick={this.handleArchiveAll}>Archive All Tests</Button>
       </div>
     );
   }
