@@ -7,14 +7,14 @@ from rest_framework import status
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth import get_user_model
 
-from apps.user.serializers import (
+from evaluators.serializers import (
     UserSerializer,
     ChangePasswordSerializer,
     GenerateResetSerializer,
     ResetPasswordSerializer
 )
-from apps.user.permissions import IsOwnerPermission
-from apps.user.email import send_password_reset_email
+from evaluators.permissions import IsOwnerPermission
+from evaluators.email import send_password_reset_email
 
 
 class UserViewSet(viewsets.ModelViewSet):

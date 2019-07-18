@@ -49,7 +49,6 @@ JWT_AUTH = {
 
 INSTALLED_APPS = [
     'apps.testing.apps.TestingConfig',
-    'apps.user.apps.UserConfig',
     'django_pdb',
     'rest_framework',
     'django.contrib.admin',
@@ -59,6 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'evaluators.apps.EvaluatorsConfig',
 ]
 
 MIDDLEWARE = [
@@ -92,6 +92,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'api.wsgi.application'
 
+AUTH_USER_MODEL = 'evaluators.User'
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases

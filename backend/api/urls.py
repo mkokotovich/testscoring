@@ -34,6 +34,6 @@ def up(request, format=None):
 urlpatterns = [
     url(r'^up/$', up),
     url(r'^api/auth/', obtain_jwt_token),
-    url(r'^api/users/', include('apps.user.urls')),
+    url(r'^api/users/', include('evaluators.urls')),
     url(r'^api/testing/', include('apps.testing.urls')),
 ]
