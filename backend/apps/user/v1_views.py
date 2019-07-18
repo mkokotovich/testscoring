@@ -4,8 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from django.contrib.auth.models import User
 from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth import get_user_model
 
 from apps.user.serializers import (
     UserSerializer,
@@ -26,9 +26,9 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_staff:
-            return User.objects.all()
+            return get_user_model().objects.all()
         else:
-            return User.objects.filter(id=self.request.user.id)
+            return get_user_model().objects.filter(id=self.request.user.id)
 
     def get_permissions(self):
         """
@@ -63,8 +63,8 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
         try:
-            user = User.objects.get(email=serializer.data['email'])
-        except User.DoesNotExist:
+            user = get_user_model().objects.get(email=serializer.data['email'])
+        except get_user_model().DoesNotExist:
             return Response({"email", "Could not find user with specified email"},
                             status=status.HTTP_400_BAD_REQUEST)
 
@@ -85,8 +85,8 @@ class UserViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors,
                             status=status.HTTP_400_BAD_REQUEST)
         try:
-            user = User.objects.get(email=serializer.data['email'])
-        except User.DoesNotExist:
+            user = get_user_model().objects.get(email=serializer.data['email'])
+        except get_user_model().DoesNotExist:
             return Response({"email", "Could not find user with specified email"},
                             status=status.HTTP_400_BAD_REQUEST)
 

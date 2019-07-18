@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 from django.contrib.postgres.fields import JSONField
 from django.utils.dateparse import parse_datetime
 
@@ -7,7 +8,7 @@ class Test(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    owner = models.ForeignKey('auth.User', related_name='tests', on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tests', on_delete=models.CASCADE)
     client_number = models.DecimalField(max_digits=8, decimal_places=0)
 
     CBCL_6_18 = 'cbcl_6_18'
