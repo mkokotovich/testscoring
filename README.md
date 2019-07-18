@@ -43,4 +43,4 @@ Tests can be ran by exec'ing into the docker container (`docker-compose exec api
 - SRS Littles
 
 ### Tests remaining to verify
-- TSCC
+(none)
