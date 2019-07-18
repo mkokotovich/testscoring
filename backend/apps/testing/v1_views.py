@@ -106,7 +106,9 @@ class TestViewSet(viewsets.ModelViewSet):
             'name': choice[1],
         } for choice in Test.TEST_TYPE_CHOICES]
 
-        return Response(test_types)
+        test_types_sorted = sorted(test_types, key=lambda test: test['name'].lower())
+
+        return Response(test_types_sorted)
 
     @action(detail=False, methods=['post'])
     def archiveall(self, request):
