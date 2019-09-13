@@ -42,12 +42,12 @@ class CDI2Self(BaseAssessment):
         'B',
         'C',
         'D',
+        'Emotional Problems',
         'Negative Mood/Physical Symptoms (A)',
         'Negative Self-Esteem (B)',
+        'Functional Problems',
         'Ineffectiveness (C)',
         'Interpersonal Problems (D)',
-        'Emotional Problems',
-        'Functional Problems',
         'Total',
     ]
 
