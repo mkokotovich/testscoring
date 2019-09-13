@@ -1,8 +1,8 @@
 import pytest
-from django.contrib.auth.models import User
 
 from apps.testing import models
 from apps.testing import (cbcl, conners, tscyc, scared, srs, brief, asrs, masc2, cdi2, tscc)
+from evaluators.models import User
 from tests.internal.data.cbcl_6_18_test import test as cbcl_6_18_test
 from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
 from tests.internal.data.cbcl_1_5_test import test as cbcl_1_5_test
