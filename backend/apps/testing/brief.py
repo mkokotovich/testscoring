@@ -85,7 +85,62 @@ class Brief2(BaseAssessment):
         'ERI',
         'CRI',
         'GEC',
+        'Negativity Score',
+        'Infrequency Score',
+        'Inconsistency Score',
     ]
+
+    def calculate_negativity_score(self, test):
+        negativity_item_numbers = (14, 28, 30, 34, 39, 41, 58, 60)
+        significant_items = test.items.filter(number__in=negativity_item_numbers, score=3)
+
+        negativity_score = significant_items.count()
+        if negativity_score < 7:
+            negativity_classification = "Acceptable"
+        elif negativity_score == 7:
+            negativity_classification = "Elevated"
+        else:
+            negativity_classification = "Highly elevated"
+
+        return f"{negativity_score} ({negativity_classification})"
+
+    def calculate_infrequency_score(self, test):
+        infrequency_item_numbers = (18, 36, 54)
+        significant_items = test.items.filter(number__in=infrequency_item_numbers, score__gte=2)
+
+        infrequency_score = significant_items.count()
+        if infrequency_score == 0:
+            infrequency_classification = "Acceptable"
+        else:
+            infrequency_classification = "Questionable"
+
+        return f"{infrequency_score} ({infrequency_classification})"
+
+    def calculate_inconsistency_score(self, test):
+        inconsistency_item_pairs = (
+            (5, 21),
+            (9, 55),
+            (10, 48),
+            (17, 40),
+            (20, 26),
+            (22, 56),
+            (25, 50),
+            (37, 63),
+        )
+        inconsistency_differences = [
+            abs(test.items.get(number=pair[0]).score - test.items.get(number=pair[1]).score)
+            for pair in inconsistency_item_pairs
+        ]
+        inconsistency_score = sum(inconsistency_differences)
+
+        if inconsistency_score < 7:
+            inconsistency_classification = "Acceptable"
+        elif inconsistency_score < 11:
+            inconsistency_classification = "Questionable"
+        else:
+            inconsistency_classification = "Inconsistent"
+
+        return f"{inconsistency_score} ({inconsistency_classification})"
 
     def score_test(self, test):
         raw_scores = self._calculate_raw_scores(test)
@@ -102,6 +157,10 @@ class Brief2(BaseAssessment):
             if key in ['Initiate', 'Working Memory', 'Plan/Organize', 'Task-Monitor', 'Organization of Materials']
         ])
         raw_scores['GEC'] = raw_scores['BRI'] + raw_scores['ERI'] + raw_scores['CRI']
+        raw_scores['Negativity Score'] = self.calculate_negativity_score(test)
+        raw_scores['Infrequency Score'] = self.calculate_infrequency_score(test)
+        raw_scores['Inconsistency Score'] = self.calculate_inconsistency_score(test)
+
         return_obj = self._convert_to_return_value(raw_scores, self.results_order, test)
         return return_obj
 
