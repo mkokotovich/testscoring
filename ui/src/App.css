@@ -12,3 +12,8 @@
 body {
   background-color: #f2f2f2;
 }
+
+.ReverseScoringWarning {
+  padding: 0px 0px 10px 0px;
+  font-size: 1.5em;
+}

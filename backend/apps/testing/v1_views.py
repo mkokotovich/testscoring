@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import filters
 from django_filters.rest_framework import DjangoFilterBackend
+from django.conf import settings
 
 from apps.testing.models import Test, Item
 from apps.testing.serializers import TestSerializer, TestListSerializer, ItemSerializer
@@ -64,7 +65,11 @@ class TestViewSet(viewsets.ModelViewSet):
                     None)
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        created_with_reverse_scoring = serializer.validated_data.get("test_type") in settings.TESTS_WITH_REVERSE_SCORING
+        serializer.save(
+            owner=self.request.user,
+            created_with_reverse_scoring=created_with_reverse_scoring,
+        )
 
     def create(self, request):
         response = super().create(request)

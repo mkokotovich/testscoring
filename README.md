@@ -3,7 +3,13 @@
 ### Local Development
 To bring up the backend: `docker-compose up`. Then run `scripts/first_run.sh` to apply initial migrations and create a test user.
 
-To bring up UI: `cd ui; yarn start`
+To bring up UI: 
+
+```
+cd ui
+yarn install
+yarn start
+```
 
 ### Contributing
 Fork the repo, make your changes, then submit a pull request. Be sure your pull request includes any migrations that were created.

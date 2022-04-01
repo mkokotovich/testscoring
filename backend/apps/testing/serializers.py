@@ -20,8 +20,8 @@ class TestSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Test
-        fields = ('id', 'created_at', 'updated_at', 'owner', 'client_number', 'test_type', 'is_archived', 'items')
-        read_only_fields = ('owner', 'items')
+        fields = ('id', 'created_at', 'updated_at', 'owner', 'client_number', 'test_type', 'is_archived', 'items', "created_with_reverse_scoring")
+        read_only_fields = ('owner', 'items', "created_with_reverse_scoring")
 
 
 class TestListSerializer(serializers.ModelSerializer):
