@@ -23,6 +23,8 @@ from tests.internal.data.briefp_test import test as briefp_test
 from tests.internal.data.briefp_scores import scores as briefp_scores
 from tests.internal.data.asrs_6_18_test import test as asrs_6_18_test
 from tests.internal.data.asrs_6_18_scores import scores as asrs_6_18_scores
+from tests.internal.data.asrs_6_18_reverse_test import test as asrs_6_18_reverse_test
+from tests.internal.data.asrs_6_18_reverse_scores import scores as asrs_6_18_reverse_scores
 from tests.internal.data.asrs_2_5_test import test as asrs_2_5_test
 from tests.internal.data.asrs_2_5_scores import scores as asrs_2_5_scores
 from tests.internal.data.masc2_self_test import test as masc2_self_test
@@ -105,6 +107,13 @@ asrs_6_18_data = (
 )
 
 
+asrs_6_18_reverse_data = (
+    asrs_6_18_reverse_test,
+    asrs_6_18_reverse_scores,
+    asrs.ASRS_6_18(),
+)
+
+
 asrs_2_5_data = (
     asrs_2_5_test,
     asrs_2_5_scores,
@@ -154,6 +163,7 @@ tscc_data = (
         brief2_data,
         briefp_data,
         asrs_6_18_data,
+        asrs_6_18_reverse_data,
         asrs_2_5_data,
         masc2_self_data,
         masc2_parent_data,
@@ -167,6 +177,7 @@ def test_test_creation_and_scoring(test, scores, assessment):
         owner=owner,
         client_number=test['client_number'],
         test_type=test['test_type'],
+        created_with_reverse_scoring=test.get("created_with_reverse_scoring", False),
     )
     assessment.create_test(test_obj.id)
     for index, item in enumerate(test_obj.items.all()):

@@ -10,6 +10,7 @@ class Test(models.Model):
 
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='tests', on_delete=models.CASCADE)
     client_number = models.DecimalField(max_digits=8, decimal_places=0)
+    created_with_reverse_scoring = models.BooleanField(default=False)
 
     CBCL_6_18 = 'cbcl_6_18'
     CBCL_1_5 = 'cbcl_1_5'
@@ -105,6 +106,7 @@ class Item(models.Model):
     score = models.DecimalField(max_digits=1, decimal_places=0, null=True)
     group = models.CharField(max_length=64, default='', blank=True)
     description = models.CharField(max_length=128, default='', blank=True)
+    reverse_scoring = models.BooleanField(default=False)
 
     class Meta:
         ordering = ('created_at',)

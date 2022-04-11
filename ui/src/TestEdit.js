@@ -155,6 +155,18 @@ class TestEdit extends Component {
           </div>
         </Affix>
 
+        { this.state.test.created_with_reverse_scoring  &&
+          <>
+            <div className="ReverseScoringWarning">
+              🚨 Reverse Scoring 🚨
+            </div>
+            <p>This test includes items that use reverse scoring, but the
+            software will reverse it for you. Please enter the scores without
+            reversing any numbers.
+            </p>
+          </>
+        }
+
         <ItemList
           items={this.state.test.items}
           readonly={this.state.readonly}

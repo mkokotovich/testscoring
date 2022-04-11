@@ -148,3 +148,5 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_URL = '/djangostatic/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+TESTS_WITH_REVERSE_SCORING = ("asrs_6_18",)

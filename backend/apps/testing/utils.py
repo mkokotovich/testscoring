@@ -5,10 +5,11 @@ from apps.testing.serializers import TestSerializer
 
 
 class ItemDescription:
-    def __init__(self, number, description='', group=''):
+    def __init__(self, number, description='', group='', reverse_scoring=False):
         self.number = number
         self.description = description
         self.group = group
+        self.reverse_scoring = reverse_scoring
 
 
 class BaseAssessment():
@@ -16,6 +17,9 @@ class BaseAssessment():
     test_type = ''
     items = []
     results_order = []
+
+    # This will only be required if the test needs to account for reverse scores
+    reverse_score_max = None
 
     # You will need to override this method
     def score_test(self, test):
@@ -32,7 +36,8 @@ class BaseAssessment():
                 test=test,
                 number=item.number,
                 description=item.description,
-                group=item.group
+                group=item.group,
+                reverse_scoring=item.reverse_scoring,
             ) for item in item_descriptions
         ]
 
@@ -59,10 +64,24 @@ class BaseAssessment():
             if item.score is None:
                 raise APIException(f"Unable to calculate score, item {item.number} does not have a score")
 
+            score = item.score
+            # Account for reverse scoring, but only if test was created with reverse scoring
+            if item.reverse_scoring and test.created_with_reverse_scoring:
+                if self.reverse_score_max is None:
+                    raise APIException(f"Unable to calculate score, item {item.number} is listed as requiring a reverse score, but no reverse_score_max was given")
+                if item.score > self.reverse_score_max:
+                    raise APIException(
+                        f"Unable to calculate score, item {item.number} is "
+                        "listed as requiring a reverse score, but the score "
+                        f"({item.score}) is greater than the reverse_score_max "
+                        f"({self.reverse_score_max})"
+                    )
+                score = self.reverse_score_max - item.score
+
             # Some items need to be counted in multiple groups
             for group in item.groups:
                 # If this is the first item in this group, initialize old_score to 0
                 old_score = raw_scores.get(group, 0)
-                raw_scores[group] = old_score + item.score
+                raw_scores[group] = old_score + score
 
         return raw_scores

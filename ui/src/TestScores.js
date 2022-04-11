@@ -51,6 +51,19 @@ class TestScores extends Component {
           { this.state.loading && <Spin size="large" />}
         </div>
 
+        { this.state.testScores.test && this.state.testScores.test.created_with_reverse_scoring  &&
+          <>
+            <div className="ReverseScoringWarning">
+              🚨 Reverse Scoring Used 🚨
+            </div>
+            <p>This test includes items that use reverse scoring, but the
+            software reversed the scores automatically. Item scores in the
+            expanded group view will represent what was entered, not the
+            reverse scores used to calculate scores.
+            </p>
+          </>
+        }
+
         <ScoreList scores={this.state.testScores.scores} test={this.state.testScores.test} />
       </div>
     );
