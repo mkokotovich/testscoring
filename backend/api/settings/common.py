@@ -21,12 +21,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'amazing, I have the same key on my luggage'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "amazing, I have the same key on my luggage")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["api", "localhost", "testscoring.herokuapp.com"]
+ALLOWED_HOSTS = ["api", "localhost", "0.0.0.0", "testscoring.fly.dev", "testscoring.herokuapp.com"]
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
@@ -48,8 +48,8 @@ JWT_AUTH = {
 # Application definition
 
 INSTALLED_APPS = [
+    "whitenoise.runserver_nostatic",
     'apps.testing.apps.TestingConfig',
-    'django_pdb',
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,17 +59,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_filters',
     'evaluators.apps.EvaluatorsConfig',
+    'rest_framework_jwt',
+    'rest_framework_jwt.blacklist',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django_pdb.middleware.PdbMiddleware',
 ]
 
 ROOT_URLCONF = 'api.urls'
@@ -146,7 +148,15 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/djangostatic/'
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+MEDIA_URL = None
+STATIC_URL = '/'
+WHITENOISE_INDEX_FILE = True
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+    "/static/www",
+)
 
 TESTS_WITH_REVERSE_SCORING = ("asrs_6_18",)

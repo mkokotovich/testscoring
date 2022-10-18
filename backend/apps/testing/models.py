@@ -1,6 +1,5 @@
 from django.db import models
 from django.conf import settings
-from django.contrib.postgres.fields import JSONField
 from django.utils.dateparse import parse_datetime
 
 
@@ -49,7 +48,7 @@ class Test(models.Model):
         choices=TEST_TYPE_CHOICES,
     )
 
-    archived_items = JSONField(default=list)
+    archived_items = models.JSONField(default=list)
 
     @property
     def client_number_str(self):
