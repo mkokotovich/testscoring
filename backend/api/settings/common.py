@@ -96,6 +96,8 @@ WSGI_APPLICATION = 'api.wsgi.application'
 
 AUTH_USER_MODEL = 'evaluators.User'
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
@@ -158,5 +160,34 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
     "/static/www",
 )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '{levelname} {asctime} {name} {lineno} {funcName} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+        },
+    },
+    'filters': {},
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+    },
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console'],
+    }
+}
 
 TESTS_WITH_REVERSE_SCORING = ("asrs_6_18",)

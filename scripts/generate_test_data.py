@@ -4,7 +4,7 @@ import os
 import requests
 
 
-DEFAULT_BASE_URL = 'https://testscoring.herokuapp.com'
+DEFAULT_BASE_URL = 'https://testscoring.fly.dev'
 
 
 def login(base_url, username, password):

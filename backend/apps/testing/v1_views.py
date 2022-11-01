@@ -13,7 +13,7 @@ from apps.testing.permissions import IsOwnerPermission, IsTestOwnerPermission
 from apps.testing.cbcl import CBCL_6_18, CBCL_1_5
 from apps.testing.conners import Conners3Parent, Conners3Self
 from apps.testing.tscyc import TSCYC
-from apps.testing.brief import Brief2, BriefP
+from apps.testing.brief import Brief2, BriefP, BriefA
 from apps.testing.srs import SRS2
 from apps.testing.scared import SCARED
 from apps.testing.tscc import TSCC
@@ -31,6 +31,7 @@ assessments = [
     TSCYC(),
     Brief2(),
     BriefP(),
+    BriefA(),
     SRS2(),
     SCARED(),
     TSCC(),

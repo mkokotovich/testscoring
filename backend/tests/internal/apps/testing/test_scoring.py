@@ -21,6 +21,8 @@ from tests.internal.data.brief2_test import test as brief2_test
 from tests.internal.data.brief2_scores import scores as brief2_scores
 from tests.internal.data.briefp_test import test as briefp_test
 from tests.internal.data.briefp_scores import scores as briefp_scores
+from tests.internal.data.briefa_test import test as briefa_test
+from tests.internal.data.briefa_scores import scores as briefa_scores
 from tests.internal.data.asrs_6_18_test import test as asrs_6_18_test
 from tests.internal.data.asrs_6_18_scores import scores as asrs_6_18_scores
 from tests.internal.data.asrs_6_18_reverse_test import test as asrs_6_18_reverse_test
@@ -100,6 +102,13 @@ briefp_data = (
 )
 
 
+briefa_data = (
+    briefa_test,
+    briefa_scores,
+    brief.BriefA(),
+)
+
+
 asrs_6_18_data = (
     asrs_6_18_test,
     asrs_6_18_scores,
@@ -162,6 +171,7 @@ tscc_data = (
         srs2_data,
         brief2_data,
         briefp_data,
+        briefa_data,
         asrs_6_18_data,
         asrs_6_18_reverse_data,
         asrs_2_5_data,

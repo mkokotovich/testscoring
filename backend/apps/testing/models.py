@@ -18,6 +18,7 @@ class Test(models.Model):
     TSCYC = 'tscyc'
     BRIEF2 = 'brief2'
     BRIEFP = 'briefp'
+    BRIEFA = 'briefa'
     SRS2 = 'srs2'
     SCARED = 'scared'
     TSCC = 'tscc'
@@ -34,6 +35,7 @@ class Test(models.Model):
         (TSCYC, 'TSCYC'),
         (BRIEF2, 'BRIEF2'),
         (BRIEFP, 'BRIEF-P'),
+        (BRIEFA, 'BRIEF-A'),
         (SRS2, 'SRS2'),
         (SCARED, 'SCARED'),
         (TSCC, 'TSCC'),
