@@ -8,7 +8,7 @@ The UI is served on `http://0.0.0.0:8008`
 ### Deployment
 Service is deployed on fly.io. New deployments can be started by running:
 ```
-fly deploy
+flyctl deploy
 ```
 
 ### Contributing
