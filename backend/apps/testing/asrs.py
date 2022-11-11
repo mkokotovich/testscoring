@@ -5,7 +5,8 @@ from apps.testing.models import Test
 class ASRS_6_18(BaseAssessment):
     test_type = Test.ASRS_6_18
 
-    reverse_score_max = 4
+    def reverse_score(self, score):
+        return 4 - score
 
     items = [
         ItemDescription('1', description='', group='SR|AT'),

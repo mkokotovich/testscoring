@@ -19,7 +19,8 @@ class BaseAssessment():
     results_order = []
 
     # This will only be required if the test needs to account for reverse scores
-    reverse_score_max = None
+    def reverse_score(self, score):
+        pass
 
     # You will need to override this method
     def score_test(self, test):
@@ -67,16 +68,7 @@ class BaseAssessment():
             score = item.score
             # Account for reverse scoring, but only if test was created with reverse scoring
             if item.reverse_scoring and test.created_with_reverse_scoring:
-                if self.reverse_score_max is None:
-                    raise APIException(f"Unable to calculate score, item {item.number} is listed as requiring a reverse score, but no reverse_score_max was given")
-                if item.score > self.reverse_score_max:
-                    raise APIException(
-                        f"Unable to calculate score, item {item.number} is "
-                        "listed as requiring a reverse score, but the score "
-                        f"({item.score}) is greater than the reverse_score_max "
-                        f"({self.reverse_score_max})"
-                    )
-                score = self.reverse_score_max - item.score
+                score = self.reverse_score(item.score)
 
             # Some items need to be counted in multiple groups
             for group in item.groups:

@@ -190,4 +190,4 @@ LOGGING = {
     }
 }
 
-TESTS_WITH_REVERSE_SCORING = ("asrs_6_18",)
+TESTS_WITH_REVERSE_SCORING = ("asrs_6_18", "cat_a")

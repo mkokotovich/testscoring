@@ -1,7 +1,7 @@
 import pytest
 
 from apps.testing import models
-from apps.testing import (cbcl, conners, tscyc, scared, srs, brief, asrs, masc2, cdi2, tscc)
+from apps.testing import (cbcl, conners, tscyc, scared, srs, brief, asrs, masc2, cdi2, tscc, cata)
 from evaluators.models import User
 from tests.internal.data.cbcl_6_18_test import test as cbcl_6_18_test
 from tests.internal.data.cbcl_6_18_scores import scores as cbcl_6_18_scores
@@ -37,6 +37,8 @@ from tests.internal.data.cdi2_self_test import test as cdi2_self_test
 from tests.internal.data.cdi2_self_scores import scores as cdi2_self_scores
 from tests.internal.data.tscc_test import test as tscc_test
 from tests.internal.data.tscc_scores import scores as tscc_scores
+from tests.internal.data.cata_test import test as cata_test
+from tests.internal.data.cata_scores import scores as cata_scores
 
 
 cbcl_6_18_data = (
@@ -158,6 +160,13 @@ tscc_data = (
 )
 
 
+cata_data = (
+    cata_test,
+    cata_scores,
+    cata.CAT_A(),
+)
+
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'test, scores, assessment',
@@ -179,6 +188,7 @@ tscc_data = (
         masc2_parent_data,
         cdi2_self_data,
         tscc_data,
+        cata_data,
     ]
 )
 def test_test_creation_and_scoring(test, scores, assessment):

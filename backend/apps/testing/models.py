@@ -27,6 +27,7 @@ class Test(models.Model):
     MASC2_SELF = 'masc2_self'
     MASC2_PARENT = 'masc2_parent'
     CDI2_SELF = 'cdi2_self'
+    CAT_A = 'cat_a'
     TEST_TYPE_CHOICES = (
         (CBCL_6_18, 'CBCL 6-18'),
         (CBCL_1_5, 'CBCL 1.5-5'),
@@ -44,6 +45,7 @@ class Test(models.Model):
         (MASC2_SELF, 'MASC 2 - Self'),
         (MASC2_PARENT, 'MASC 2 - Parent'),
         (CDI2_SELF, 'CDI 2 - Self'),
+        (CAT_A, 'CAT-A'),
     )
     test_type = models.CharField(
         max_length=16,

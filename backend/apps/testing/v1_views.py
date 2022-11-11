@@ -20,6 +20,7 @@ from apps.testing.tscc import TSCC
 from apps.testing.asrs import ASRS_6_18, ASRS_2_5
 from apps.testing.masc2 import MASC2Self, MASC2Parent
 from apps.testing.cdi2 import CDI2Self
+from apps.testing.cata import CAT_A
 
 
 # Add new assessments to this list
@@ -40,6 +41,7 @@ assessments = [
     MASC2Self(),
     MASC2Parent(),
     CDI2Self(),
+    CAT_A(),
 ]
 
 
