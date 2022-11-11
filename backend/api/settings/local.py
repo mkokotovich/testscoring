@@ -19,4 +19,4 @@ from api.settings.common import *
 
 SECRET_KEY = 'amazing, i have the same combination on my luggage'
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=False)
+DATABASES['default'] = dj_database_url.config(conn_max_age=600)
