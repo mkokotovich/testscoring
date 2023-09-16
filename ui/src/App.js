@@ -12,6 +12,7 @@ import Profile from './Profile';
 import ChangePassword from './ChangePassword';
 import ForgotPassword from './ForgotPassword';
 import ResetPassword from './ResetPassword';
+import Admin from './Admin';
 
 class App extends Component {
   constructor(props) {
@@ -136,6 +137,13 @@ class App extends Component {
           path={`/forgot`}
           render={() => {
             return <ForgotPassword/>;
+          }}
+        />
+        <Route
+          exact 
+          path={`/admin`}
+          render={() => {
+            return <Admin user={this.state.user}/>;
           }}
         />
       </div>
