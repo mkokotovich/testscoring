@@ -1,6 +1,6 @@
 repos:
--   repo: git://github.com/pre-commit/pre-commit-hooks
-    rev: v1.2.3
+-   repo: https://github.com/pycqa/flake8
+    rev: 7.2.0
     hooks:
     -   id: flake8
         exclude: migrations
