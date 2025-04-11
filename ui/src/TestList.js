@@ -25,7 +25,7 @@ function TestList(props) {
 
   const loadTests = () => {
     setLoading(true);
-    const values = queryString.parse(location.search)
+    const values = queryString.parse(location.search);
     var query = "";
     var sep = "?";
     if (values.type) {

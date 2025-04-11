@@ -48,7 +48,7 @@ assessments = [
 class TestViewSet(viewsets.ModelViewSet):
     filter_backends = (filters.SearchFilter, DjangoFilterBackend,)
     search_fields = ('^client_number',)
-    filter_fields = ('test_type', 'client_number')
+    filterset_fields = ('test_type', 'client_number')
 
     def get_queryset(self):
         if self.request.user.is_staff:
