@@ -1,37 +1,30 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Input, Button } from 'antd';
 import './Search.css';
 
-class Search extends Component {
-  state = {
+function Search(props) {
+  const navigate = useNavigate();
+
+  const searchByID = (value) => {
+    navigate(`/tests/?search=${value}`);
   }
 
-  componentDidMount() {
+  const viewAll = () => {
+    navigate("/tests/");
   }
 
-  searchByID(value) {
-    this.props.history.push(`/tests/?search=${value}`);
-  }
-
-  viewAll = () => {
-    this.props.history.push(`/tests/`);
-  }
-
-  render() {
-
-    return (
-      <div className="Search" style={{ marginBottom: 5}}>
-        <Input.Search
-          placeholder="Search by Client ID"
-          enterButton="Search"
-          style={{ width: 250 }}
-          onSearch={value => this.searchByID(value)}
-        />
-        <Button style={{ marginLeft: 5 }} onClick={this.viewAll} >All Tests</Button>
-      </div>
-    );
-  }
+  return (
+    <div className="Search" style={{ marginBottom: 5}}>
+      <Input.Search
+        placeholder="Search by Client ID"
+        enterButton="Search"
+        style={{ width: 250 }}
+        onSearch={value => searchByID(value)}
+      />
+      <Button style={{ marginLeft: 5 }} onClick={viewAll} >All Tests</Button>
+    </div>
+  );
 }
 
-export default withRouter(Search);
+export default Search;

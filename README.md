@@ -11,7 +11,7 @@ The UI is served on `http://0.0.0.0:8008`. Or for easier developement of the UI,
 The API is deployed on fly.io. New deployments can be started by running:
 
 ```
-flyctl deploy
+fly deploy
 ```
 
 ### Database

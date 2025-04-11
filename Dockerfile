@@ -1,4 +1,4 @@
-FROM node:10.16 as uibuilder
+FROM node:22.14 as uibuilder
 
 # set working directory
 WORKDIR /usr/src/app

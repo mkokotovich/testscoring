@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Table } from 'antd';
 
 import './ScoreList.css';
@@ -47,4 +46,4 @@ class ScoreList extends Component {
   }
 }
 
-export default withRouter(ScoreList);
+export default ScoreList;

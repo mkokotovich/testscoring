@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Row, Modal, Spin } from 'antd';
 import StartTest from './StartTest';
 import Search from './Search';
@@ -73,4 +73,4 @@ class Home extends Component {
   }
 }
 
-export default withRouter(Home);
+export default Home;

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import Item from './Item';
 
 import './ItemList.css';
@@ -52,4 +51,4 @@ class ItemList extends Component {
   }
 }
 
-export default withRouter(ItemList);
+export default ItemList;

@@ -1,49 +1,40 @@
-import React, { Component } from 'react';
-import { withRouter} from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Button, Modal, Spin, Input } from 'antd';
 import axios from 'axios';
 import './StartTest.css';
 
-class StartTest extends Component {
-  state = {
-    visible: false,
-    clientID: undefined,
-    loading: false
+function StartTest(props) {
+  const [visible, setVisible] = useState(false);
+  const [clientID, setClientID] = useState(undefined);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
+
+  const showModal = () => {
+    setVisible(true);
   }
 
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
+  const viewExisting = () => {
+    navigate(`/tests/?type=${props.assessment.slug}`);
   }
 
-  viewExisting = () => {
-    this.props.history.push(`/tests/?type=${this.props.assessment.slug}`);
-  }
-
-  handleOk = (e) => {
-    this.setState({
-      loading: true
-    });
+  const handleOk = (e) => {
+    setLoading(true);
     var test_data = {
-      client_number: this.state.clientID,
-      test_type: this.props.assessment.slug
+      client_number: clientID,
+      test_type: props.assessment.slug
     }
     axios.post('/api/testing/v1/tests/', test_data)
       .then((response) => {
         console.log(response);
-        this.setState({
-          loading: false,
-          visible: false
-        });
-        this.props.history.push(`/tests/${response.data.id}/edit`);
+        setLoading(false);
+        setVisible(false);
+        navigate(`/tests/${response.data.id}/edit`);
       })
       .catch((error) => {
         console.log(error);
-        this.setState({
-          loading: false,
-          visible: false
-        });
+        setLoading(false);
+        setVisible(false);
         Modal.error({
           title: "Unable to start a new scoring",
           content: "Unable to start a new scoring. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
@@ -52,54 +43,45 @@ class StartTest extends Component {
       });
   }
 
-  handleCancel = (e) => {
-    this.setState({
-      visible: false,
-    });
+  const handleCancel = (e) => {
+    setVisible(false);
   }
 
-  onChangeClientID = (e) => {
-    this.setState({ clientID: e.target.value });
+  const onChangeClientID = (e) => {
+    setClientID(e.target.value);
   }
 
-
-  componentDidMount() {
-  }
-
-  render() {
-
-    return (
-      <div className="StartTest">
-        <Card style={{ width: 350 }}>
-          <h1>{this.props.assessment.name}</h1>
-          <div align="right">
-            <Button type="primary" onClick={this.showModal}>Start New</Button>
-            &nbsp;
-            <Button type="primary" onClick={this.viewExisting}>View Existing</Button>
+  return (
+    <div className="StartTest">
+      <Card style={{ width: 350 }}>
+        <h1>{props.assessment.name}</h1>
+        <div align="right">
+          <Button type="primary" onClick={showModal}>Start New</Button>
+          &nbsp;
+          <Button type="primary" onClick={viewExisting}>View Existing</Button>
+        </div>
+        <Modal
+          title={"Start a new " + props.assessment.name + " scoring"}
+          visible={visible}
+          onOk={handleOk}
+          okText="Start"
+          okButtonProps={{ disabled: !clientID }}
+          onCancel={handleCancel}
+        >
+          <div align="center">
+            { loading && <Spin size="large" />}
           </div>
-          <Modal
-            title={"Start a new " + this.props.assessment.name + " scoring"}
-            visible={this.state.visible}
-            onOk={this.handleOk}
-            okText="Start"
-            okButtonProps={{ disabled: !this.state.clientID }}
-            onCancel={this.handleCancel}
-          >
-            <div align="center">
-              { this.state.loading && <Spin size="large" />}
-            </div>
-            <p>Please enter the client ID</p>
-            <Input
-              placeholder="Enter Client ID"
-              value={this.state.clientID}
-              onChange={this.onChangeClientID}
-              onPressEnter={() => this.handleOk()}
-            />
-          </Modal>
-        </Card>
-      </div>
-    );
-  }
+          <p>Please enter the client ID</p>
+          <Input
+            placeholder="Enter Client ID"
+            value={clientID}
+            onChange={onChangeClientID}
+            onPressEnter={() => handleOk()}
+          />
+        </Modal>
+      </Card>
+    </div>
+  );
 }
 
-export default withRouter(StartTest);
+export default StartTest;

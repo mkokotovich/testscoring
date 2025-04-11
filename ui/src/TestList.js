@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation } from 'react-router-dom';
 import { Button, Modal, Spin, Divider } from 'antd';
 import Test from './Test';
 import Search from './Search';
@@ -7,26 +7,25 @@ import axios from 'axios';
 import queryString from 'query-string';
 import './TestList.css';
 
-class TestList extends Component {
-  state = {
-    tests: [],
-    loading: false
-  }
+function TestList(props) {
 
-  componentDidMount() {
-    this.loadTests();
-  }
+  const [tests, setTests] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { testId } = useParams();
+  const location = useLocation();
 
-  componentDidUpdate(prevProps) {
-    if (this.props.location.search !== prevProps.location.search) {
-      this.setState({tests: []});
-      this.loadTests();
-    }
-  }
+  useEffect(() => {
+    loadTests();
+  }, []);
 
-  loadTests = () => {
-    this.setState({loading: true});
-    const values = queryString.parse(this.props.location.search)
+  useEffect(() => {
+    setTests([]);
+    loadTests();
+  }, [location.search]);
+
+  const loadTests = () => {
+    setLoading(true);
+    const values = queryString.parse(location.search)
     var query = "";
     var sep = "?";
     if (values.type) {
@@ -44,14 +43,12 @@ class TestList extends Component {
     axios.get(`/api/testing/v1/tests/${query}`)
       .then((response) => {
         console.log(response);
-        this.setState({
-          loading: false,
-          tests: response.data
-        });
+        setLoading(false);
+        setTests(response.data);
       })
       .catch((error) => {
         console.log(error);
-        this.setState({loading: false});
+        setLoading(false);
         Modal.error({
           title: "Unable to load tests",
           content: "Unable to load tests. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
@@ -60,27 +57,29 @@ class TestList extends Component {
       });
   }
 
-  updateStateWithNewTest = (newTest) => {
-    const updatedTests = this.state.tests.map((test) => {
+  const updateStateWithNewTest = (newTest) => {
+    const updatedTests = tests.map((test) => {
       if (test.id === newTest.id) {
         return newTest;
       } else {
         return test;
       }
     });
-    this.setState({ tests: updatedTests });
+    setTests(updatedTests);
   }
 
-  handleArchiveAll = () => {
+  const handleArchiveAll = () => {
     console.log("archiving all tests");
+    setLoading(true);
     axios.post(`/api/testing/v1/tests/archiveall/`)
       .then((response) => {
+        setLoading(false);
         console.log(response);
-        const newTests = response.data;
-        this.setState({ tests: newTests });
+        setTests(response.data);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
         Modal.error({
           title: "Unable to archive all tests",
           content: "Unable to archive all tests. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
@@ -89,15 +88,17 @@ class TestList extends Component {
       });
   }
 
-  handleArchive = (testId) => {
+  const handleArchive = (testId) => {
+    setLoading(true);
     console.log("archive " + testId);
     axios.post(`/api/testing/v1/tests/${testId}/archive/`)
       .then((response) => {
+        setLoading(false);
         console.log(response);
-        const newTest = response.data;
-        this.updateStateWithNewTest(newTest);
+        updateStateWithNewTest(response.data);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         Modal.error({
           title: "Unable to archive test",
@@ -107,15 +108,17 @@ class TestList extends Component {
       });
   }
 
-  handleRestore = (testId) => {
+  const handleRestore = (testId) => {
     console.log("restore " + testId);
+    setLoading(true);
     axios.post(`/api/testing/v1/tests/${testId}/restore/`)
       .then((response) => {
+        setLoading(false);
         console.log(response);
-        const newTest = response.data;
-        this.updateStateWithNewTest(newTest);
+        updateStateWithNewTest(response.data);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         Modal.error({
           title: "Unable to restore test",
@@ -125,15 +128,18 @@ class TestList extends Component {
       });
   }
 
-  handleDelete = (testId) => {
+  const handleDelete = (testId) => {
     console.log("delete " + testId);
+    setLoading(true);
     axios.delete(`/api/testing/v1/tests/${testId}/`)
       .then((response) => {
+        setLoading(false);
         console.log(response);
-        const tests = [...this.state.tests];
-        this.setState({ tests: tests.filter(item => item.id !== testId) });
+        const newTests = tests.filter(item => item.id !== testId);
+        setTests(newTests);
       })
       .catch((error) => {
+        setLoading(false);
         console.log(error);
         Modal.error({
           title: "Unable to delete test",
@@ -143,7 +149,7 @@ class TestList extends Component {
       });
   }
 
-  expandedRowRender = (record) => {
+  const expandedRowRender = (record) => {
     return (
       <div>
         Created at: {record.created_at} and last modified at: {record.updated_at}
@@ -151,31 +157,29 @@ class TestList extends Component {
     )
   }
 
-  render() {
-    const tests = this.state.tests.map(test =>
-      <div key={test.id}>
-        <Test
-          test={test}
-          handleArchive={this.handleArchive}
-          handleRestore={this.handleRestore}
-          handleDelete={this.handleDelete}
-          assessmentBySlug={this.props.assessmentBySlug}
-        />
-        <Divider />
+  const displayTests = tests.map(test =>
+    <div key={test.id}>
+      <Test
+        test={test}
+        handleArchive={handleArchive}
+        handleRestore={handleRestore}
+        handleDelete={handleDelete}
+        assessmentBySlug={props.assessmentBySlug}
+      />
+      <Divider />
+    </div>
+  );
+  return (
+    <div className="TestList">
+      <Search/>
+      <div align="center">
+        { loading && <Spin size="large" />}
       </div>
-    );
-    return (
-      <div className="TestList">
-        <Search/>
-        <div align="center">
-          { this.state.loading && <Spin size="large" />}
-        </div>
-        <Divider />
-        {tests}
-        <Button onClick={this.handleArchiveAll}>Archive All Tests</Button>
-      </div>
-    );
-  }
+      <Divider />
+      {displayTests}
+      <Button onClick={handleArchiveAll}>Archive All Tests</Button>
+    </div>
+  );
 }
 
-export default withRouter(TestList);
+export default TestList;

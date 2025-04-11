@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Route, Link } from 'react-router-dom';
+import React, {Component} from 'react';
+import { Route, Routes, Link } from 'react-router-dom';
 import { Modal, Row, Col } from 'antd';
 import axios from 'axios';
 import './App.css';
@@ -73,79 +73,20 @@ class App extends Component {
           <Col className="Logo"><Link to="/">Test Scoring</Link></Col>
           <Col><SignIn handleAuthChange={this.handleAuthChange} /></Col>
         </Row>
-        <Route
-          exact
-          path="/"
-          render={() => {
-            return <Home signedInUser={this.state.user} assessments={this.state.assessments}/>;
-          }}
-        />
-        <Route
-          path={`/tests/:testId/view`}
-          render={() => {
-            return <TestEdit readonly={true}/>;
-          }}
-        />
-        <Route
-          path={`/tests/:testId/verify`}
-          render={() => {
-            return <TestEdit verify={true}/>;
-          }}
-        />
-        <Route
-          path={`/tests/:testId/edit`}
-          render={() => {
-            return <TestEdit/>;
-          }}
-        />
-        <Route
-          path={`/tests/:testId/scores`}
-          render={() => {
-            return <TestScores/>;
-          }}
-        />
-        <Route
-          exact
-          path={`/tests`}
-          render={() => {
-            return <TestList assessmentBySlug={this.state.assessmentBySlug}/>;
-          }}
-        />
-        <Route
-          exact 
-          path={`/profile/password`}
-          render={() => {
-            return <ChangePassword user={this.state.user}/>;
-          }}
-        />
-        <Route
-          exact 
-          path={`/profile`}
-          render={() => {
-            return <Profile user={this.state.user}/>;
-          }}
-        />
-        <Route
-          exact 
-          path={`/reset`}
-          render={() => {
-            return <ResetPassword/>;
-          }}
-        />
-        <Route
-          exact 
-          path={`/forgot`}
-          render={() => {
-            return <ForgotPassword/>;
-          }}
-        />
-        <Route
-          exact 
-          path={`/admin`}
-          render={() => {
-            return <Admin user={this.state.user}/>;
-          }}
-        />
+        <Routes>
+
+          <Route path="/" element={ <Home signedInUser={this.state.user} assessments={this.state.assessments}/>} />
+          <Route path="/tests/:testId/view" element={ <TestEdit readonly={true}/> } />
+          <Route path="/tests/:testId/verify" element={ <TestEdit verify={true}/> } />
+          <Route path="/tests/:testId/edit" element={ <TestEdit/> } />
+          <Route path="/tests/:testId/scores" element={ <TestScores/> } />
+          <Route path="/tests" element={ <TestList assessmentBySlug={this.state.assessmentBySlug}/> } />
+          <Route path="/profile/password" element={ <ChangePassword user={this.state.user}/> } />
+          <Route path="/profile" element={ <Profile user={this.state.user}/> } />
+          <Route path="/reset" element={ <ResetPassword/> } />
+          <Route path="/forgot" element={ <ForgotPassword/> } />
+          <Route path="/admin" element={ <Admin user={this.state.user}/> } />
+        </Routes>
       </div>
     );
   }

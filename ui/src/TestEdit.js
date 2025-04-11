@@ -1,52 +1,52 @@
-import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { Modal, Spin, Affix, Button } from 'antd';
 import axios from 'axios';
 import ItemList from './ItemList';
 import './TestEdit.css';
 
-class TestEdit extends Component {
-  state = {
-    test: {},
-    readonly: false,
-    loading: false,
-    conflicts: {}
-  }
+function TestEdit(props) {
+  const [test, setTest] = useState({});
+  const [readonly, setReadonly] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [conflicts, setConflicts] = useState({});
+  const { testId } = useParams();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  componentDidMount() {
-    this.loadTest();
-    if (this.props.location.state) {
-      const {readonly} = this.props.location.state
-      if (readonly) {
-        this.setState({readonly})
+  useEffect(() => {
+    loadTest();
+    if (location.state) {
+      const {locReadonly} = location.state
+      if (locReadonly) {
+        setReadonly(locReadonly);
       }
     }
-    if (this.props.readonly !== undefined) {
-      this.setState({readonly: this.props.readonly})
-    }
-    
-  }
+  }, [location.state]);
 
-  componentDidUpdate(prevProps) {
-    if (this.props.match.params.testId !== prevProps.match.params.testId) {
-      this.setState({test: []});
-      this.loadTest();
+  useEffect(() => {
+    if (props.readonly !== undefined) {
+      setReadonly(props.readonly);
     }
-  }
+  }, [props.readonly]);
 
-  loadTest = () => {
-    this.setState({loading: true});
-    axios.get(`/api/testing/v1/tests/${this.props.match.params.testId}/`)
+  useEffect(() => {
+    setTest([]);
+    loadTest();
+  }, [testId]);
+
+
+  const loadTest = () => {
+    setLoading(true);
+    axios.get(`/api/testing/v1/tests/${testId}/`)
       .then((response) => {
         console.log(response);
-        this.setState({
-          loading: false,
-          test: response.data
-        });
+        setLoading(false);
+        setTest(response.data);
       })
       .catch((error) => {
         console.log(error);
-        this.setState({loading: false});
+        setLoading(false);
         Modal.error({
           title: "Unable to load test",
           content: "Unable to load test. Please try again\n\n" + error + "\n\n" + JSON.stringify(error.response.data),
@@ -55,25 +55,23 @@ class TestEdit extends Component {
       });
   }
 
-  updateConflicts = (itemId, conflict) => {
-    var newConflicts = this.state.conflicts;
+  const updateConflicts = (itemId, conflict) => {
+    var newConflicts = conflicts;
     newConflicts[itemId] = conflict;
-    this.setState({ conflicts: newConflicts });
+    setConflicts(newConflicts);
   }
 
-  handleEdit = () => {
-    const testId = this.props.match.params.testId;
-    this.props.history.push(`/tests/${testId}/edit`)
+  const handleEdit = () => {
+    navigate(`/tests/${testId}/edit`);
   }
 
-  handleVerify = () => {
-    const testId = this.props.match.params.testId;
-    this.props.history.push(`/tests/${testId}/verify`)
+  const handleVerify = () => {
+    navigate(`/tests/${testId}/verify`);
   }
 
-  handleViewInconsistencies = () => {
-    const onlyErrors = Object.keys(this.state.conflicts).reduce((filtered, key) => {
-      if (this.state.conflicts[key]) {
+  const handleViewInconsistencies = () => {
+    const onlyErrors = Object.keys(conflicts).reduce((filtered, key) => {
+      if (conflicts[key]) {
         filtered.push(key);
       }
       return filtered;
@@ -87,95 +85,90 @@ class TestEdit extends Component {
     }
   }
 
-  handleViewScores = () => {
-    const testId = this.props.match.params.testId;
-    this.props.history.push(`/tests/${testId}/scores`)
+  const handleViewScores = () => {
+    navigate(`/tests/${testId}/scores`)
   }
 
-  render() {
-    const allVerified = this.state.test.items ? Object.keys(this.state.conflicts).length === this.state.test.items.length : false;
-    const inconsistencies = Object.keys(this.state.conflicts).reduce((filtered, key) => {
-      if (this.state.conflicts[key]) {
-        filtered.push(key);
-      }
-      return filtered;
-    }, []);
-    const verb = this.props.readonly ? "Viewing" :
-                 this.props.verify ? "Verifying" :
-                 "Editing";
+  const allVerified = test.items ? Object.keys(conflicts).length === test.items.length : false;
+  const inconsistencies = Object.keys(conflicts).reduce((filtered, key) => {
+    if (conflicts[key]) {
+      filtered.push(key);
+    }
+    return filtered;
+  }, []);
+  const verb = props.readonly ? "Viewing" : props.verify ? "Verifying" : "Editing";
 
-    return (
-      <div className="TestEdit">
-        <h2>{verb} {this.state.test.test_type} for client {this.state.test.client_number}</h2>
-        <div align="center">
-          { this.state.loading && <Spin size="large" />}
-        </div>
+  return (
+    <div className="TestEdit">
+      <h2>{verb} {test.test_type} for client {test.client_number}</h2>
+      <div align="center">
+        { loading && <Spin size="large" />}
+      </div>
 
-        <Affix>
-          <div className="AlignRight">
-            { this.state.readonly ? 
+      <Affix>
+        <div className="AlignRight">
+          { readonly ? 
+            <Button
+              className="TopRightButton"
+              onClick={handleEdit}>
+                Edit
+            </Button> : '' 
+          }
+          { props.verify ? (
+            <React.Fragment>
+            { inconsistencies.length > 0 ? 
               <Button
                 className="TopRightButton"
-                onClick={this.handleEdit}>
-                  Edit
-              </Button> : '' 
+                onClick={handleViewInconsistencies}>
+                  View Inconsistencies
+              </Button> : ''
             }
-            { this.props.verify ? (
-              <React.Fragment>
-              { inconsistencies.length > 0 ? 
-                <Button
-                  className="TopRightButton"
-                  onClick={this.handleViewInconsistencies}>
-                    View Inconsistencies
-                </Button> : ''
-              }
-              {
-                allVerified && inconsistencies.length === 0 ? 
-                <Button
-                  className="TopRightButton"
-                  onClick={this.handleViewScores}>
-                    View Scores
-                </Button> : ''
-              }
-              </React.Fragment>
-            ) :
-              <React.Fragment>
-                <Button
-                  className="TopRightButton"
-                  onClick={this.handleVerify}>
-                    Verify
-                </Button>
-                <Button
-                  className="TopRightButton"
-                  onClick={this.handleViewScores}>
-                    View Scores
-                </Button>
-              </React.Fragment>
+            {
+              allVerified && inconsistencies.length === 0 ? 
+              <Button
+                className="TopRightButton"
+                onClick={handleViewScores}>
+                  View Scores
+              </Button> : ''
             }
+            </React.Fragment>
+          ) :
+            <React.Fragment>
+              <Button
+                className="TopRightButton"
+                onClick={handleVerify}>
+                  Verify
+              </Button>
+              <Button
+                className="TopRightButton"
+                onClick={handleViewScores}>
+                  View Scores
+              </Button>
+            </React.Fragment>
+          }
+        </div>
+      </Affix>
+
+      { test.created_with_reverse_scoring  &&
+        <>
+          <div className="ReverseScoringWarning">
+            🚨 Reverse Scoring 🚨
           </div>
-        </Affix>
+          <p>This test includes items that use reverse scoring, but the
+          software will reverse it for you. Please enter the scores without
+          reversing any numbers.
+          </p>
+        </>
+      }
 
-        { this.state.test.created_with_reverse_scoring  &&
-          <>
-            <div className="ReverseScoringWarning">
-              🚨 Reverse Scoring 🚨
-            </div>
-            <p>This test includes items that use reverse scoring, but the
-            software will reverse it for you. Please enter the scores without
-            reversing any numbers.
-            </p>
-          </>
-        }
-
-        <ItemList
-          items={this.state.test.items}
-          readonly={this.state.readonly}
-          verify={this.props.verify}
-          updateConflicts={this.updateConflicts}
-        />
-      </div>
-    );
-  }
+      <ItemList
+        items={test.items}
+        readonly={readonly}
+        verify={props.verify}
+        updateConflicts={updateConflicts}
+      />
+    </div>
+  );
 }
 
-export default withRouter(TestEdit);
+export default TestEdit;

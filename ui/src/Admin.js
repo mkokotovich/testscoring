@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
 import { Row, Col, Input, Modal, Spin, Divider} from 'antd';
 import queryString from 'query-string';
 import axios from 'axios';
@@ -48,4 +47,4 @@ function Admin(props) {
 
 }
 
-export default withRouter(Admin);
+export default Admin;

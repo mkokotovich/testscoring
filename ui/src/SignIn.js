@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Modal, Button, Dropdown, Menu } from 'antd';
-import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 import decode from 'jwt-decode';
 
@@ -34,18 +34,12 @@ function SignOut(props) {
   );
 }
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleSignIn = this.handleSignIn.bind(this);
-    this.handleSignOut = this.handleSignOut.bind(this);
-    this.state = {
-      isSignedIn: false,
-      username: undefined
-    };
-  }
+function SignIn(props) {
+  const navigate = useNavigate();
+  const [isSignedIn, setIsSignedIn] = useState(false);
+  const [username, setUsername] = useState(undefined);
 
-  componentDidMount() {
+  useEffect(() => {
     // Check if token exists and isn't expired
     const token = localStorage.getItem('id_token');
     if (token) {
@@ -53,28 +47,28 @@ class SignIn extends React.Component {
       const current_time = new Date().getTime() / 1000;
       if (decoded.exp && decoded.exp < current_time) {
 	/* Token is expired, sign out */
-	this.handleSignOut();
+	handleSignOut();
       } else {
-	this.signInWithToken(token);
+	signInWithToken(token);
       }
     }
     const user = localStorage.getItem('user');
     if (user) {
       const user_obj = JSON.parse(user)
-      this.props.handleAuthChange(user_obj);
-      this.setState({username: user_obj.username});
+      props.handleAuthChange(user_obj);
+      setUsername(user_obj.username);
     }
-  }
+  }, []);
 
-  signInWithToken(token) {
+  const signInWithToken = (token) => {
     localStorage.setItem('id_token', token);
     axios.defaults.headers.common['Authorization'] = "Bearer " + token;
     axios.defaults.xsrfCookieName = "csrftoken";
     axios.defaults.xsrfHeaderName = "X-CSRFToken";
-    this.setState({isSignedIn: true});
+    setIsSignedIn(true);
   }
 
-  handleSignIn(username, password) {
+  const handleSignIn = (username, password) => {
     console.log("Trying to sign in " + username);
     axios.post('/api/auth/', {
       username: username,
@@ -86,11 +80,11 @@ class SignIn extends React.Component {
       console.log(response.headers);
       if (token) {
 	console.log("Signed in " + username);
-	this.setState({username: username});
-	this.signInWithToken(token);
+	setUsername(username);
+	signInWithToken(token);
 	if (user) {
 	  localStorage.setItem('user', JSON.stringify(user));
-	  this.props.handleAuthChange(user);
+	  props.handleAuthChange(user);
 	}
       } else {
 	console.log("Failed to sign in " + username);
@@ -111,35 +105,33 @@ class SignIn extends React.Component {
     });
   }
 
-  handleProfile = () => {
-    this.props.history.push('/profile');
+  const handleProfile = () => {
+    navigate("/profile");
   }
 
-  handleSignOut = () => {
+  const handleSignOut = () => {
     localStorage.removeItem("id_token");
     localStorage.removeItem("user");
-    this.setState({username: undefined});
-    this.props.handleAuthChange(null);
+    setUsername(undefined);
+    props.handleAuthChange(null);
     delete axios.defaults.headers.common["Authorization"];
 
     console.log("Signed out");
-    this.setState({isSignedIn: false});
-    this.props.history.push('/');
+    setIsSignedIn(false);
+    navigate("/");
   }
 
-  render() {
-    const signInOrOut = this.state.isSignedIn ? (
-      <SignOut handleSignOut={this.handleSignOut} handleProfile={this.handleProfile} username={this.state.username} />
-    ) : (
-      <SignInForm handleSignIn={this.handleSignIn} />
-    );
+  const signInOrOut = isSignedIn ? (
+    <SignOut handleSignOut={handleSignOut} handleProfile={handleProfile} username={username} />
+  ) : (
+    <SignInForm handleSignIn={handleSignIn} />
+  );
 
-    return (
-      <div className="SignIn">
-        {signInOrOut}
-      </div>
-    );
-  }
+  return (
+    <div className="SignIn">
+      {signInOrOut}
+    </div>
+  );
 }
 
-export default withRouter(SignIn)
+export default SignIn
