@@ -88,13 +88,13 @@ class Test(models.Model):
                 raise ValueError(f"Item came from test {json_item['test']}, can not restore into test {self.id}")
 
             Item.objects.create(
-                created_at=parse_datetime(json_item['created_at']),
-                updated_at=parse_datetime(json_item['updated_at']),
+                created_at=parse_datetime(json_item.get('created_at')),
+                updated_at=parse_datetime(json_item.get('updated_at')),
                 test=self,
-                number=json_item['number'],
-                score=int(json_item['score']),
-                group=json_item['group'],
-                description=json_item['description'],
+                number=json_item.get('number'),
+                score=(0 if (score := json_item.get('score')) == "None" else int(score)),
+                group=json_item.get('group'),
+                description=json_item.get('description'),
             )
         self.archived_items = []
         self.save()
