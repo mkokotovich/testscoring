@@ -97,7 +97,7 @@ Then set the new database secret on the app (being sure to add the database name
 fly secrets set DATABASE_URL=...
 ```
 
-Database Migration from fly to neon.tech
+### Database Migration from fly to neon.tech
 
 Start fly proxy
 

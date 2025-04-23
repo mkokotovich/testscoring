@@ -9,6 +9,8 @@ function TestEdit(props) {
   const [test, setTest] = useState({});
   const [readonly, setReadonly] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [allVerified, setAllVerified] = useState(false);
+  const [inconsistencies, setInconsistencies] = useState([]);
   const [conflicts, setConflicts] = useState({});
   const { testId } = useParams();
   const location = useLocation();
@@ -35,7 +37,6 @@ function TestEdit(props) {
     loadTest();
   }, [testId]);
 
-
   const loadTest = () => {
     setLoading(true);
     axios.get(`/api/testing/v1/tests/${testId}/`)
@@ -59,6 +60,14 @@ function TestEdit(props) {
     var newConflicts = conflicts;
     newConflicts[itemId] = conflict;
     setConflicts(newConflicts);
+    setAllVerified(test.items ? Object.keys(newConflicts).length === test.items.length : false);
+    setInconsistencies(Object.keys(newConflicts).reduce((filtered, key) => {
+        if (newConflicts[key]) {
+          filtered.push(key);
+        }
+        return filtered;
+      }, [])
+    )
   }
 
   const handleEdit = () => {
@@ -89,13 +98,6 @@ function TestEdit(props) {
     navigate(`/tests/${testId}/scores`)
   }
 
-  const allVerified = test.items ? Object.keys(conflicts).length === test.items.length : false;
-  const inconsistencies = Object.keys(conflicts).reduce((filtered, key) => {
-    if (conflicts[key]) {
-      filtered.push(key);
-    }
-    return filtered;
-  }, []);
   const verb = props.readonly ? "Viewing" : props.verify ? "Verifying" : "Editing";
 
   return (
