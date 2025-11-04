@@ -10,8 +10,10 @@ class ItemList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.items === undefined && this.props.items) {
-      // This is the first time the items have been displayed, focus the first item
+    if ((prevProps.items === undefined && this.props.items) || (!prevProps.verify && this.props.verify && this.props.items)) {
+      // This is the first time the items have been displayed,
+      // or the first time we are switching to verify mode.
+      // Force the first box to have focus
       this.changeFocus(-1);
     }
   }
